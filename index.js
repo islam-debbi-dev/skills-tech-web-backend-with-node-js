@@ -1,1 +1,1 @@
-console.log('sabir')
+console.log('islam')
