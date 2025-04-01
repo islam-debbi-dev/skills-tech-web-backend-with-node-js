@@ -25,8 +25,10 @@ const projectSchema = new mongoose.Schema({
     max: 2
   },
   assignedStudents: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
   }]
 }, {
   timestamps: true
