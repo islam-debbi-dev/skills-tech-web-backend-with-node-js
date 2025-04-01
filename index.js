@@ -1,11 +1,16 @@
 const express = require('express');
 const app = express();
 const auth = require('./routes/auth');
+const connectDb = require('./middleware/connactDb');
+const port = 3000;
+// connect database
+connectDb();
 
+// routes
 app.use("/auth",auth);
 
-const port = 3000;
 
+// port listening
 app.listen(port, () => {
   console.log(` localhost:${port}/`);
 });
