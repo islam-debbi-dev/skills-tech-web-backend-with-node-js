@@ -1,8 +1,13 @@
+const dotenv = require('dotenv');
 const express = require('express');
-const app = express();
 const auth = require('./routes/auth');
 const connectDb = require('./middleware/connactDb');
 const port = 3000;
+const app = express();
+app.use(express.json());
+dotenv.config();
+
+
 // connect database
 connectDb();
 
@@ -10,7 +15,6 @@ connectDb();
 app.use("/auth",auth);
 
 
-// port listening
 app.listen(port, () => {
   console.log(` localhost:${port}/`);
 });
