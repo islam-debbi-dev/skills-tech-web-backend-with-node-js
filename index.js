@@ -1,10 +1,14 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const auth = require('./routes/auth');
-const users = require('./routes/user');
+const user = require('./routes/user');
+const project = require('./routes/project');
+
 const connectDb = require('./middleware/connactDb');
 const port = process.env.PORT || 3000;
 const app = express();
+
+
 app.use(express.json());
 dotenv.config();
 
@@ -14,7 +18,11 @@ connectDb();
 
 // routes
 app.use("/api/auth",auth);
-app.use("/api/user",users);
+app.use("/api/user",user);
+app.use("/api/project",project);
+
+
+
 
 // error handler when page not found
 app.use((req, res) => {
