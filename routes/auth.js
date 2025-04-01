@@ -1,7 +1,7 @@
 const express = require('express');
+const { body } = require('express-validator');
 const User = require('../models/user-model');
 const router = express.Router();
-
 
 // Register new user
 router.post('/register',
@@ -52,14 +52,14 @@ router.post('/login',
   async (req, res) => {
     try {
       const { username, password } = req.body;
-
+        console.log(username + password);
       const user = await User.findOne({ username });
       if (!user) {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
 
-      const isMatch = await user.comparePassword(password);
-      if (!isMatch) {
+      
+      if (!user.password === password) {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
 

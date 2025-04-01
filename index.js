@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 const express = require('express');
 const auth = require('./routes/auth');
 const connectDb = require('./middleware/connactDb');
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
 dotenv.config();
@@ -12,7 +12,7 @@ dotenv.config();
 connectDb();
 
 // routes
-app.use("/auth",auth);
+app.use("/api/auth",auth);
 
 
 app.listen(port, () => {
