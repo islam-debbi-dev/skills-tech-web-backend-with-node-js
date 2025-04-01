@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const proposalSchema = new mongoose.Schema({
-  project: {
+  projectId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project',
     required: true
   },
-  student: {
+  studentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: true
