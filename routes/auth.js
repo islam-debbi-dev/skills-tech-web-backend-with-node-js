@@ -1,7 +1,7 @@
 const express = require('express');
+const router = express.Router();
 const { body } = require('express-validator');
 const User = require('../models/user-model');
-const router = express.Router();
 
 // Register new user
 router.post('/register',
@@ -52,7 +52,7 @@ router.post('/login',
   async (req, res) => {
     try {
       const { username, password } = req.body;
-        console.log(username + password);
+        console.log('Username: '+username +'\nPassword: '+ password);
       const user = await User.findOne({ username });
       if (!user) {
         return res.status(401).json({ message: 'Invalid credentials' });
@@ -76,6 +76,5 @@ router.post('/login',
     }
   }
 );
-
 
 module.exports = router;
