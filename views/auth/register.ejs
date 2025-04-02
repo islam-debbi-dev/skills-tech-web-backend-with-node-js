@@ -1,0 +1,67 @@
+<%- include('../layouts/main', { title: title }) %>
+
+<div class="flex min-h-screen items-center justify-center p-4">
+  <div class="bg-white rounded-lg shadow-md overflow-hidden w-full max-w-md">
+    <div class="p-6 text-center">
+      <h1 class="text-2xl font-bold">تسجيل حساب جديد</h1>
+      <p class="text-gray-600 mb-6">قم بإنشاء حساب طالب جديد</p>
+      
+      <form action="/auth/register" method="POST" class="space-y-4">
+        <div class="space-y-2">
+          <label for="name" class="block text-sm font-medium text-gray-700 text-right">الاسم الكامل</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            required
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="username" class="block text-sm font-medium text-gray-700 text-right">اسم المستخدم</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="اسم المستخدم"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            required
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="password" class="block text-sm font-medium text-gray-700 text-right">كلمة المرور</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            required
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="password2" class="block text-sm font-medium text-gray-700 text-right">تأكيد كلمة المرور</label>
+          <input
+            id="password2"
+            name="password2"
+            type="password"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            required
+          />
+        </div>
+
+        <button type="submit" class="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors">
+          تسجيل
+        </button>
+      </form>
+      
+      <p class="mt-4 text-sm text-gray-600">
+        لديك حساب بالفعل؟
+        <a href="/auth/login?role=student" class="text-primary hover:underline">تسجيل الدخول</a>
+      </p>
+    </div>
+  </div>
+</div>
+

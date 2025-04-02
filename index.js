@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const express = require('express');
+const path = require('path');
 const auth = require('./routes/auth');
 const user = require('./routes/user');
 const project = require('./routes/project');
@@ -17,6 +18,10 @@ dotenv.config();
 
 // connect database
 connectDb();
+
+// View engine setup
+app.set("views", path.join(__dirname, "views"))
+app.set("view engine", "ejs") 
 
 // routes
 app.use("/api/auth",auth);

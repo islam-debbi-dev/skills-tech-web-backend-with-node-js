@@ -18,6 +18,7 @@
   "homepage": "https://github.com/islam-debbi-dev/skills-tech-web-backend-with-node-js#readme",
   "dependencies": {
     "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
     "express": "^4.21.2",
     "express-validator": "^7.2.1",
     "mongoos": "^0.0.1-security",

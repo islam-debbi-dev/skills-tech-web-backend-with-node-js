@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"></html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">تسجيل الدخول إلى حسابك</h2>
+    <form action="/auth/login" method="POST" class="space-y-4">
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-700">اسم المستخدم</label>
+        <input type="text" id="username" name="username" required
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">كلمة المرور</label>
+        <input type="password" id="password" name="password" required
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+      </div>
+      <div class="flex items-center justify-between">
+        <a href="/auth/forgot-password" class="text-sm text-blue-600 hover:underline">نسيت كلمة المرور؟</a>
+      </div>
+      <button type="submit"
+        class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        تسجيل الدخول
+      </button>
+    </form>
+    <p class="text-sm text-center text-gray-600 mt-4">
+      ليس لديك حساب؟ <a href="/auth/register" class="text-blue-600 hover:underline">إنشاء حساب</a>
+    </p>
+  </div>
+</body>
+</html>
