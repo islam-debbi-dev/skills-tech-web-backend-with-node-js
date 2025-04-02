@@ -4,7 +4,7 @@ const path = require('path');
 const auth = require('./routes/auth');
 const user = require('./routes/user');
 const project = require('./routes/project');
-
+const page = require('./routes/pages');
 const proposal = require('./routes/proposal');
 
 const connectDb = require('./middleware/connactDb');
@@ -28,6 +28,7 @@ app.use("/api/auth",auth);
 app.use("/api/user",user);
 app.use("/api/project",project);
 app.use("/api/proposal",proposal);
+app.use("/api/page",page);
 
 
 
@@ -38,10 +39,10 @@ app.use((req, res) => {
 });
 
 // error handler at server side 
-app.use((err, req, res, next) => {
-  console.error(err.stack)
-  res.status(500).render("error", { title: "An error on the server.", error: err });
-});
+// app.use((err, req, res, next) => {
+//   console.error(err.stack)
+//   res.status(500).render("error", { title: "An error on the server.", error: err });
+// });
 
 app.listen(port, () => {
   console.log(` localhost:${port}/`);
