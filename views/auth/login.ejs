@@ -40,6 +40,40 @@
         ليس لديك حساب؟ <a href="/auth/register" class="text-blue-600 hover:underline">إنشاء حساب</a>
       </p>
   </div>
-  
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+      await login();
+  });
+
+  async function login() {
+      try {
+          const errorMessageElement = document.getElementById("error-message");
+          errorMessageElement.innerText = "";
+          const result = await fetch(`http://localhost:3000/api/auth/login`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  username: document.getElementById('username').value,
+                  password: document.getElementById('password').value
+              })
+          });
+          const data = await result.json();
+          console.log(data);
+          if (!result.ok) {
+              errorMessageElement.innerText = data.message; // Display error message
+              console.log(data.message);
+          } else {
+              console.log('Login successful:', data);
+             // window.location.href = data.redirectUrl; // Redirect to my account page with username
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          alert('Login failed. Please check your credentials and try again.');
+      }
+  }
+  </script>
 </body>
 </html>
