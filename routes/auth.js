@@ -77,4 +77,10 @@ router.post('/login',
   }
 );
 
+router.get('/loginform',
+  async (req, res)=>{
+    res.render("auth/login");
+  }
+);
+
 module.exports = router;
