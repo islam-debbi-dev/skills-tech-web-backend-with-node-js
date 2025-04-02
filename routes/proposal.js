@@ -113,17 +113,17 @@ router.post('/select-final', async (req, res) => {
         }
         console.log(`projectId: ${projectId} studentId: ${studentId}`);
 
-        
-            const proposal = await Proposal.findOne({
-                studentId: studentId,
-                projectId: projectId,
-                status: 'accepted'
-            });
-            if (!proposal) {
-                return res.status(400).json({ message: 'No accepted proposal found for this project' });
-            }
-       
-       
+
+        const proposal = await Proposal.findOne({
+            studentId: studentId,
+            projectId: projectId,
+            status: 'accepted'
+        });
+        if (!proposal) {
+            return res.status(400).json({ message: 'No accepted proposal found for this project' });
+        }
+
+
 
         student.finalProject = projectId;
         await student.save();
