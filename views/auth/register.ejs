@@ -1,67 +1,148 @@
-<%- include('../layouts/main', { title: title }) %>
-
-<div class="flex min-h-screen items-center justify-center p-4">
-  <div class="bg-white rounded-lg shadow-md overflow-hidden w-full max-w-md">
-    <div class="p-6 text-center">
-      <h1 class="text-2xl font-bold">تسجيل حساب جديد</h1>
-      <p class="text-gray-600 mb-6">قم بإنشاء حساب طالب جديد</p>
-      
-      <form action="/auth/register" method="POST" class="space-y-4">
-        <div class="space-y-2">
-          <label for="name" class="block text-sm font-medium text-gray-700 text-right">الاسم الكامل</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            required
-          />
-        </div>
-
-        <div class="space-y-2">
-          <label for="username" class="block text-sm font-medium text-gray-700 text-right">اسم المستخدم</label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            placeholder="اسم المستخدم"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            required
-          />
-        </div>
-
-        <div class="space-y-2">
-          <label for="password" class="block text-sm font-medium text-gray-700 text-right">كلمة المرور</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            required
-          />
-        </div>
-
-        <div class="space-y-2">
-          <label for="password2" class="block text-sm font-medium text-gray-700 text-right">تأكيد كلمة المرور</label>
-          <input
-            id="password2"
-            name="password2"
-            type="password"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            required
-          />
-        </div>
-
-        <button type="submit" class="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90 transition-colors">
-          تسجيل
-        </button>
-      </form>
-      
-      <p class="mt-4 text-sm text-gray-600">
-        لديك حساب بالفعل؟
-        <a href="/auth/login?role=student" class="text-primary hover:underline">تسجيل الدخول</a>
-      </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل حساب جديد</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f3f4f6;
+    }
+    .form-container {
+      background-color: #ffffff;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      max-width: 400px;
+      width: 100%;
+    }
+    .form-header {
+      background-color: #4f46e5;
+      color: #ffffff;
+      padding: 1rem;
+    }
+    .form-header h1 {
+      margin: 0;
+    }
+    .form-body {
+      padding: 1.5rem;
+    }
+    .form-footer {
+      padding: 1rem;
+      text-align: center;
+    }
+    .form-footer a {
+      color: #4f46e5;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="flex min-h-screen items-center justify-center p-4">
+    <div class="form-container">
+      <div class="form-header text-center">
+        <h1 class="text-2xl font-bold">تسجيل حساب جديد</h1>
+      </div>
+      <div class="form-body">
+        <p class="text-gray-600 mb-6 text-center">قم بإنشاء حساب طالب جديد</p>
+        
+        <form id="signupForm" action="/auth/register" method="POST" class="space-y-4">
+          <div class="space-y-2">
+            <label for="fullName" class="block text-sm font-medium text-gray-700 text-right">الاسم الكامل</label>
+            <input
+              id="fullName"
+              name="fullName"
+              type="text"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              required
+            />
+          </div>
+  
+          <div class="space-y-2">
+            <label for="username" class="block text-sm font-medium text-gray-700 text-right">اسم المستخدم</label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              placeholder="اسم المستخدم"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              required
+            />
+          </div>
+  
+          <div class="space-y-2">
+            <label for="password" class="block text-sm font-medium text-gray-700 text-right">كلمة المرور</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              required
+            />
+          </div>
+  
+          <div class="space-y-2">
+            <label for="password2" class="block text-sm font-medium text-gray-700 text-right">تأكيد كلمة المرور</label>
+            <input
+              id="password2"
+              name="password2"
+              type="password"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              required
+            />
+          </div>
+  
+          <button type="submit" class="w-full bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors">
+            تسجيل
+          </button>
+        </form>
+      </div>
+      <div class="form-footer">
+        <p class="mt-4 text-sm text-gray-600">
+          لديك حساب بالفعل؟
+          <a href="/auth/login?role=student" class="hover:underline">تسجيل الدخول</a>
+        </p>
+      </div>
     </div>
   </div>
-</div>
-
+  
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+        await register();
+    });
+    async function register(){
+        const username = document.getElementById('username').value;
+        const fullName = document.getElementById('fullName').value;
+        const password = document.getElementById('password').value;
+        const password2 = document.getElementById('password2').value;
+        if(password !== password2){
+            alert('Passwords do not match');
+            return;
+        }
+        const response = await fetch('http://localhost:3000/api/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, fullName, password, role:'student' })
+        });
+        
+        if(!response.ok){
+            const data = await response.json();
+            alert(data.message);
+            console.log(data.message);
+            return;
+        }
+        else{
+            alert('Registration successful!');
+            window.location.href = '/api/page/login';
+        
+        }
+    };
+  </script>
+</body>
+</html>

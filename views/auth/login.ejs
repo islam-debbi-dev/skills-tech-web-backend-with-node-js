@@ -61,13 +61,13 @@
               })
           });
           const data = await result.json();
-          console.log(data);
           if (!result.ok) {
               errorMessageElement.innerText = data.message; // Display error message
               console.log(data.message);
           } else {
-              console.log('Login successful:', data);
-             // window.location.href = data.redirectUrl; // Redirect to my account page with username
+            alert('Login successful!');
+
+              window.location.href = data.redirectUrl; // Redirect to my account page with username
           }
       } catch (error) {
           console.error('Error:', error);

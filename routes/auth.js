@@ -62,29 +62,37 @@ router.post('/login',
       if (!user.password === password) {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
-      if (user.role === 'student') {
-        res.json({
-          user: {
-            id: user._id,
-            username: user.username,
-            role: user.role,
-            fullName: user.fullName
-          }, redirectUrl: `/page/student?username=${req.body.username}`
-        });
-      }
-      if (user.role === 'teacher') {
-        res.json({
-          user: {
-            id: user._id,
-            username: user.username,
-            role: user.role,
-            fullName: user.fullName
-          }, redirectUrl: `/page/teacher?username=${req.body.username}`
-        });
-      }
-      else {
+      res.json({
+        user: {
+          id: user._id,
+          username: user.username,
+          role: user.role,
+          fullName: user.fullName
+        }, redirectUrl: `/api/page/testhome?username=${req.body.username}`
+      },);
+      // if (user.role === 'student') {
+      //   res.json({
+      //     user: {
+      //       id: user._id,
+      //       username: user.username,
+      //       role: user.role,
+      //       fullName: user.fullName
+      //     }, redirectUrl: `/page/student?username=${req.body.username}`
+      //   });
+      // }
+      // if (user.role === 'teacher') {
+      //   res.json({
+      //     user: {
+      //       id: user._id,
+      //       username: user.username,
+      //       role: user.role,
+      //       fullName: user.fullName
+      //     }, redirectUrl: `/page/teacher?username=${user.username}`
+      //   });
+      // }
+      // else {
 
-      }
+      // }
 
     } catch (error) {
       res.status(500).json({ message: 'Server error', error: error.message });
