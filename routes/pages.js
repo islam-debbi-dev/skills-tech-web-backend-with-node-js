@@ -4,21 +4,21 @@ const router = express.Router();
 // get login page
 router.get('/login', (req, res) => {
     res.render('auth/login.ejs', {
-        title: 'Secure Login Portal',
-        heading: 'Member Login',
-        formAction: '/login'
     });
 });
 
 // get sign-up page
-router.get('/sign-up', (req, res) => {
-    res.render('../pages/sign-up.ejs', {
-        title: 'Secure Sign Up Portal',
-        formAction: '/sign-up'
+router.get('/register', (req, res) => {
+    res.render('auth/register.ejs', {
     });
 });
 
-
+// get test home pageW
+router.get('/testhome', (req, res) => {
+    res.render('auth/testhome.ejs', {
+        username: req.query.username,
+    });
+});
 
 // get student home page
 router.get('/student/home', (req, res) => {
