@@ -33,4 +33,10 @@ router.get('/teacher',
     }
 );
 
-module.exports = router, User;
+router.get('/current-user',
+    async (req, res)=>{
+        
+    }
+);
+
+module.exports = router;
