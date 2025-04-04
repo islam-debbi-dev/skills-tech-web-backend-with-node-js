@@ -33,10 +33,22 @@ router.get('/teacher',
     }
 );
 
-router.get('/current-user',
-    async (req, res)=>{
-        
-    }
-);
 
-module.exports = router;
+// get current user 
+router.get('/me/:id',async (req,res)=>{
+    try{
+        
+    const me = await User.findById(req.params.id).select('-password');
+    if(!me){
+        return res.status(404).json({message:'user not found'});
+    }
+
+    res.json({
+        me
+    })
+}catch(e){
+    res.status(404).json({message:'user not found'});
+}
+});
+
+module.exports = router, User;
