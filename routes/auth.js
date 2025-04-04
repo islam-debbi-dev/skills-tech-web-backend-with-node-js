@@ -52,7 +52,6 @@ router.post('/login',
   async (req, res) => {
     try {
       const { username, password } = req.body;
-      console.log('Username: ' + username + '\nPassword: ' + password);
       const user = await User.findOne({ username });
       if (!user) {
         return res.status(401).json({ message: 'Invalid credentials' });
@@ -62,34 +61,34 @@ router.post('/login',
       if (!user.password === password) {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
-      res.json({
-        user: {
-          id: user._id,
-          username: user.username,
-          role: user.role,
-          fullName: user.fullName
-        }, redirectUrl: `/api/page/testhome?username=${req.body.username}`
-      },);
-      // if (user.role === 'student') {
-      //   res.json({
-      //     user: {
-      //       id: user._id,
-      //       username: user.username,
-      //       role: user.role,
-      //       fullName: user.fullName
-      //     }, redirectUrl: `/page/student?username=${req.body.username}`
-      //   });
-      // }
-      // if (user.role === 'teacher') {
-      //   res.json({
-      //     user: {
-      //       id: user._id,
-      //       username: user.username,
-      //       role: user.role,
-      //       fullName: user.fullName
-      //     }, redirectUrl: `/page/teacher?username=${user.username}`
-      //   });
-      // }
+      // res.json({
+      //   user: {
+      //     id: user._id,
+      //     username: user.username,
+      //     role: user.role,
+      //     fullName: user.fullName
+      //   }, redirectUrl: `/api/page/testhome?username=${req.body.username}`
+      // });
+      if (user.role === 'student') {
+        res.json({
+          user: {
+            id: user._id,
+            username: user.username,
+            role: user.role,
+            fullName: user.fullName
+          }, redirectUrl: `/api/page/student/home?username=${req.body.username}`
+        });
+      }
+      if (user.role === 'teacher') {
+        res.json({
+          user: {
+            id: user._id,
+            username: user.username,
+            role: user.role,
+            fullName: user.fullName
+          }, redirectUrl: `/api/page/teacher/home?username=${user.username}`
+        });
+      }
       // else {
 
       // }
@@ -99,13 +98,5 @@ router.post('/login',
     }
   }
 );
-
-// router.get('/loginform',
-//   async (req, res) => {
-//     res.render("auth/login.ejs");
-//   }
-// );
-
-
 
 module.exports = router;
