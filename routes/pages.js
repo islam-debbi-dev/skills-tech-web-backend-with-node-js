@@ -15,7 +15,7 @@ router.get('/register', (req, res) => {
 
 // get test home pageW
 router.get('/testhome', (req, res) => {
-    res.render('auth/testhome.ejs', {
+    res.render('homepage', {
         username: req.query.username,
     });
 });
