@@ -36,7 +36,9 @@ router.put('/:id',
     ],
     async (req, res) => {
         try {
+
             const { title, description } = req.body;
+            console.log(title);
             const project = await Project.findByIdAndUpdate(
                 req.params.id,
                 {

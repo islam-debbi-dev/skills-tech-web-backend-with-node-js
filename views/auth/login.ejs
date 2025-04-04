@@ -68,7 +68,7 @@
               console.log(data.message);
           } else {
             alert('Login successful!');
-            localStorage.setItem('userId', data.user._id || '67ebc72cc0ecccc4f144adf3');
+            localStorage.setItem('userId', data.user.id);
               window.location.href = data.redirectUrl; // Redirect to my account page with username
           }
       } catch (error) {
