@@ -1,29 +1,787 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Page Teacher</title>
+  <title>لوحة تحكم الأستاذ</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Cairo', sans-serif;
     }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
   </style>
 </head>
-<body class="bg-gray-100">
-  <div class="container mx-auto px-4 py-8">
-    <div class="bg-white shadow-md rounded-lg p-6">
-      <h1 class="text-2xl font-bold text-gray-800 mb-4">Welcome, <span id="username" class="text-blue-600"></span>!</h1>
-      <p class="text-gray-600">This is your home page.</p>
+<body class="bg-gray-100 min-h-screen">
+  <!-- Header -->
+  <header class="bg-blue-600 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">نظام إدارة المشاريع - لوحة الأستاذ</h1>
+      <div class="flex items-center space-x-4 space-x-reverse">
+        <span id="user-name" class="font-medium"></span>
+        <button id="logout-btn" class="bg-white text-blue-600 px-4 py-1 rounded-lg hover:bg-gray-100">
+          تسجيل الخروج
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto p-4 mt-6">
+    <!-- Tabs -->
+    <div class="mb-6 border-b border-gray-200">
+      <ul class="flex flex-wrap -mb-px text-sm font-medium text-center">
+        <li class="ml-4">
+          <button class="tab-btn inline-block p-4 border-b-2 border-blue-600 rounded-t-lg active" data-tab="my-projects">
+            مشاريعي
+          </button>
+        </li>
+        <li class="ml-4">
+          <button class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-gray-300" data-tab="create-project">
+            إنشاء مشروع
+          </button>
+        </li>
+        <li class="ml-4">
+          <button class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-gray-300" data-tab="proposals">
+            طلبات المشاريع
+          </button>
+        </li>
+        <li class="ml-4">
+          <button class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-gray-300" data-tab="profile">
+            الملف الشخصي
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab Contents -->
+    <!-- My Projects Tab -->
+    <div id="my-projects-tab" class="tab-content active">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">مشاريعي</h2>
+        <button id="refresh-projects" class="bg-gray-200 text-gray-700 py-1 px-3 rounded-lg hover:bg-gray-300 focus:outline-none">
+          تحديث
+        </button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-container">
+        <!-- Projects will be loaded here -->
+        <div class="animate-pulse bg-white p-6 rounded-lg shadow-md">
+          <div class="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
+          <div class="h-4 bg-gray-200 rounded mb-2"></div>
+          <div class="h-4 bg-gray-200 rounded mb-2"></div>
+          <div class="h-4 bg-gray-200 rounded mb-2"></div>
+          <div class="h-10 bg-gray-200 rounded mt-4"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Project Tab -->
+    <div id="create-project-tab" class="tab-content">
+      <h2 class="text-xl font-bold mb-4">إنشاء مشروع جديد</h2>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <form id="create-project-form" class="space-y-4">
+          <div>
+            <label for="project-title" class="block text-sm font-medium text-gray-700">عنوان المشروع</label>
+            <input type="text" id="project-title" name="title" required
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="project-description" class="block text-sm font-medium text-gray-700">وصف المشروع</label>
+            <textarea id="project-description" name="description" rows="4" required
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+          </div>
+          <div>
+            <label for="max-students" class="block text-sm font-medium text-gray-700">الحد الأقصى للطلاب</label>
+            <input type="number" id="max-students" name="maxStudents" min="1" max="10" value="2"
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <button type="submit"
+            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            إنشاء المشروع
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Proposals Tab -->
+    <div id="proposals-tab" class="tab-content">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">طلبات المشاريع</h2>
+        <button id="refresh-proposals" class="bg-gray-200 text-gray-700 py-1 px-3 rounded-lg hover:bg-gray-300 focus:outline-none">
+          تحديث
+        </button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
+          <thead class="bg-gray-100 text-gray-700">
+            <tr>
+              <th class="py-3 px-4 text-right">عنوان المشروع</th>
+              <th class="py-3 px-4 text-right">اسم الطالب</th>
+              <th class="py-3 px-4 text-right">الحالة</th>
+              <th class="py-3 px-4 text-right">تاريخ التقديم</th>
+              <th class="py-3 px-4 text-right">الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="proposals-container">
+            <!-- Proposals will be loaded here -->
+            <tr class="animate-pulse">
+              <td class="py-3 px-4"><div class="h-4 bg-gray-200 rounded w-3/4"></div></td>
+              <td class="py-3 px-4"><div class="h-4 bg-gray-200 rounded w-1/2"></div></td>
+              <td class="py-3 px-4"><div class="h-4 bg-gray-200 rounded w-1/2"></div></td>
+              <td class="py-3 px-4"><div class="h-4 bg-gray-200 rounded w-2/3"></div></td>
+              <td class="py-3 px-4"><div class="h-4 bg-gray-200 rounded w-full"></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Profile Tab -->
+    <div id="profile-tab" class="tab-content">
+      <h2 class="text-xl font-bold mb-4">الملف الشخصي</h2>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <form id="profile-form" class="space-y-4">
+          <div>
+            <label for="fullName" class="block text-sm font-medium text-gray-700">الاسم الكامل</label>
+            <input type="text" id="fullName" name="fullName" 
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="username" class="block text-sm font-medium text-gray-700">اسم المستخدم</label>
+            <input type="text" id="username" name="username" disabled
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 shadow-sm">
+          </div>
+          <div>
+            <label for="role" class="block text-sm font-medium text-gray-700">الدور</label>
+            <input type="text" id="role" name="role" disabled
+              class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 shadow-sm">
+          </div>
+          <button type="submit"
+            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            حفظ التغييرات
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Edit Project Modal -->
+  <div id="edit-project-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mx-4">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold">تعديل المشروع</h3>
+        <button id="close-edit-modal" class="text-gray-500 hover:text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <form id="edit-project-form" class="space-y-4">
+        <input type="hidden" id="edit-project-id">
+        <div>
+          <label for="edit-project-title" class="block text-sm font-medium text-gray-700">عنوان المشروع</label>
+          <input type="text" id="edit-project-title" name="title" required
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div>
+          <label for="edit-project-description" class="block text-sm font-medium text-gray-700">وصف المشروع</label>
+          <textarea id="edit-project-description" name="description" rows="4" required
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+        </div>
+        <div>
+          <label for="edit-max-students" class="block text-sm font-medium text-gray-700">الحد الأقصى للطلاب</label>
+          <input type="number" id="edit-max-students" name="maxStudents" min="1" max="10"
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div class="flex justify-end space-x-4 space-x-reverse">
+          <button type="button" id="cancel-edit"
+            class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+            إلغاء
+          </button>
+          <button type="submit"
+            class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+            حفظ التغييرات
+          </button>
+        </div>
+      </form>
     </div>
   </div>
+
+  <!-- Confirm Delete Modal -->
+  <div id="confirm-delete-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mx-4">
+      <h3 class="text-xl font-bold mb-4">تأكيد الحذف</h3>
+      <p class="mb-6">هل أنت متأكد من رغبتك في حذف هذا المشروع؟ لا يمكن التراجع عن هذا الإجراء.</p>
+      <input type="hidden" id="delete-project-id">
+      <div class="flex justify-end space-x-4 space-x-reverse">
+        <button id="cancel-delete"
+          class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+          إلغاء
+        </button>
+        <button id="confirm-delete"
+          class="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+          حذف
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transform transition-transform duration-300 translate-y-20 opacity-0">
+    <span id="toast-message"></span>
+  </div>
+
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const username = urlParams.get('username');
-      document.getElementById('username').innerText = username;
+    // Global variables
+    let currentUser = null;
+    let projects = [];
+    let proposals = [];
+    let students = {}; // Cache for student data
+
+    // DOM Elements
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const projectsContainer = document.getElementById('projects-container');
+    const proposalsContainer = document.getElementById('proposals-container');
+    const createProjectForm = document.getElementById('create-project-form');
+    const editProjectForm = document.getElementById('edit-project-form');
+    const editProjectModal = document.getElementById('edit-project-modal');
+    const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+    const profileForm = document.getElementById('profile-form');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    const logoutBtn = document.getElementById('logout-btn');
+    const refreshProjectsBtn = document.getElementById('refresh-projects');
+    const refreshProposalsBtn = document.getElementById('refresh-proposals');
+
+    // Check if user is logged in
+    function checkAuth() {
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        window.location.href = 'login.html';
+      }
+      return userId;
+    }
+
+    // Tab switching functionality
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const tabId = button.getAttribute('data-tab');
+        
+        // Update active tab button
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active', 'border-blue-600');
+          btn.classList.add('border-transparent');
+        });
+        button.classList.add('active', 'border-blue-600');
+        button.classList.remove('border-transparent');
+        
+        // Show active tab content
+        tabContents.forEach(content => {
+          content.classList.remove('active');
+        });
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+      });
+    });
+
+    // Fetch current user data
+    async function fetchCurrentUser() {
+      try {
+        const userId = checkAuth();
+        const response = await fetch(`http://localhost:3000/api/user/me/${userId}`);
+        const data = await response.json();
+        
+        if (data.me) {
+          currentUser = data.me;
+          document.getElementById('user-name').textContent = currentUser.fullName;
+          
+          // Fill profile form
+          document.getElementById('fullName').value = currentUser.fullName;
+          document.getElementById('username').value = currentUser.username;
+          document.getElementById('role').value = currentUser.role === 'teacher' ? 'أستاذ' : 'طالب';
+          
+          // Redirect if not a teacher
+          if (currentUser.role !== 'teacher') {
+            alert('هذه الصفحة مخصصة للأساتذة فقط');
+            window.location.href = 'index.html';
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        showToast('حدث خطأ أثناء تحميل بيانات المستخدم', 'error');
+      }
+    }
+
+    // Fetch all projects for the teacher
+    async function fetchProjects() {
+      try {
+        const response = await fetch('http://localhost:3000/api/project/');
+        const data = await response.json();
+        
+        // Filter projects by teacher ID
+        projects = data.filter(project => project.teacher === currentUser._id);
+        renderProjects();
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+        showToast('حدث خطأ أثناء تحميل المشاريع', 'error');
+      }
+    }
+
+    // Fetch all proposals for the teacher's projects
+    async function fetchProposals() {
+      try {
+        const response = await fetch(`http://localhost:3000/api/proposal/teacher?teacherId=${currentUser._id}`);
+        const data = await response.json();
+        
+        proposals = data;
+        renderProposals();
+      } catch (error) {
+        console.error('Error fetching proposals:', error);
+        showToast('حدث خطأ أثناء تحميل الطلبات', 'error');
+      }
+    }
+
+    // Fetch student data
+    async function fetchStudentData(studentId) {
+      // Check if we already have this student's data cached
+      if (students[studentId]) {
+        return students[studentId];
+      }
+      
+      try {
+        const response = await fetch(`http://localhost:3000/api/user/me/${studentId}`);
+        const data = await response.json();
+        
+        if (data.me) {
+          // Cache the student data
+          students[studentId] = data.me;
+          return data.me;
+        }
+        return null;
+      } catch (error) {
+        console.error('Error fetching student data:', error);
+        return null;
+      }
+    }
+
+    // Render projects to the DOM
+    function renderProjects() {
+      projectsContainer.innerHTML = '';
+      
+      if (projects.length === 0) {
+        projectsContainer.innerHTML = '<p class="col-span-3 text-center text-gray-500">لم تقم بإنشاء أي مشاريع بعد</p>';
+        return;
+      }
+      
+      projects.forEach(project => {
+        const projectCard = document.createElement('div');
+        projectCard.className = 'bg-white p-6 rounded-lg shadow-md';
+        projectCard.innerHTML = `
+          <h3 class="text-lg font-bold mb-2">${project.title}</h3>
+          <p class="text-gray-600 mb-4">${project.description}</p>
+          <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
+            <span>الحالة: <span class="font-medium ${project.status === 'available' ? 'text-green-600' : 'text-red-600'}">${project.status === 'available' ? 'متاح' : 'غير متاح'}</span></span>
+            <span>الحد الأقصى للطلاب: ${project.maxStudents}</span>
+          </div>
+          <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
+            <span>الطلاب المسجلين: ${project.assignedStudents.length}</span>
+            <span>تاريخ الإنشاء: ${new Date(project.createdAt).toLocaleDateString('ar-SA')}</span>
+          </div>
+          <div class="flex space-x-2 space-x-reverse">
+            <button class="edit-project flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-id="${project._id}">
+              تعديل
+            </button>
+            <button class="delete-project flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" data-id="${project._id}">
+              حذف
+            </button>
+          </div>
+        `;
+        
+        projectsContainer.appendChild(projectCard);
+        
+        // Add event listeners
+        const editBtn = projectCard.querySelector('.edit-project');
+        const deleteBtn = projectCard.querySelector('.delete-project');
+        
+        editBtn.addEventListener('click', () => openEditProjectModal(project));
+        deleteBtn.addEventListener('click', () => openDeleteProjectModal(project._id));
+      });
+    }
+
+    // Render proposals to the DOM
+    async function renderProposals() {
+      proposalsContainer.innerHTML = '';
+      
+      if (proposals.length === 0) {
+        proposalsContainer.innerHTML = '<tr><td colspan="5" class="py-4 px-4 text-center text-gray-500">لا توجد طلبات للمشاريع الخاصة بك</td></tr>';
+        return;
+      }
+      
+      // Sort proposals by date (newest first)
+      proposals.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      
+      for (const proposal of proposals) {
+        // Find the project
+        const project = projects.find(p => p._id === proposal.projectId) || { title: 'مشروع غير معروف' };
+        
+        // Get student data
+        const student = await fetchStudentData(proposal.studentId) || { fullName: 'طالب غير معروف' };
+        
+        const row = document.createElement('tr');
+        row.className = 'border-b hover:bg-gray-50';
+        row.innerHTML = `
+          <td class="py-3 px-4">${project.title}</td>
+          <td class="py-3 px-4">${student.fullName}</td>
+          <td class="py-3 px-4">
+            <span class="px-2 py-1 rounded-full text-xs font-medium
+              ${proposal.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                proposal.status === 'accepted' ? 'bg-green-100 text-green-800' : 
+                'bg-red-100 text-red-800'}">
+              ${proposal.status === 'pending' ? 'قيد الانتظار' : 
+                proposal.status === 'accepted' ? 'مقبول' : 'مرفوض'}
+            </span>
+          </td>
+          <td class="py-3 px-4">${new Date(proposal.createdAt).toLocaleDateString('ar-SA')}</td>
+          <td class="py-3 px-4">
+            ${proposal.status === 'pending' ? `
+              <div class="flex space-x-2 space-x-reverse">
+                <button class="accept-proposal bg-green-600 text-white py-1 px-2 rounded hover:bg-green-700 text-xs" data-id="${proposal._id}">
+                  قبول
+                </button>
+                <button class="reject-proposal bg-red-600 text-white py-1 px-2 rounded hover:bg-red-700 text-xs" data-id="${proposal._id}">
+                  رفض
+                </button>
+              </div>
+            ` : proposal.status === 'accepted' ? `
+              <button class="select-final bg-blue-600 text-white py-1 px-2 rounded hover:bg-blue-700 text-xs" 
+                data-project="${proposal.projectId}" data-student="${proposal.studentId}">
+                اختيار كمشروع نهائي
+              </button>
+            ` : ''}
+          </td>
+        `;
+        
+        proposalsContainer.appendChild(row);
+        
+        // Add event listeners if needed
+        if (proposal.status === 'pending') {
+          const acceptBtn = row.querySelector('.accept-proposal');
+          const rejectBtn = row.querySelector('.reject-proposal');
+          
+          acceptBtn.addEventListener('click', () => updateProposalStatus(proposal._id, 'accepted'));
+          rejectBtn.addEventListener('click', () => updateProposalStatus(proposal._id, 'rejected'));
+        } else if (proposal.status === 'accepted') {
+          const selectFinalBtn = row.querySelector('.select-final');
+          
+          selectFinalBtn.addEventListener('click', () => {
+            selectFinalProject(proposal.projectId, proposal.studentId);
+          });
+        }
+      }
+    }
+
+    // Create a new project
+    async function createProject(event) {
+      event.preventDefault();
+      
+      try {
+        const title = document.getElementById('project-title').value;
+        const description = document.getElementById('project-description').value;
+        const maxStudents = document.getElementById('max-students').value;
+        
+        const response = await fetch('http://localhost:3000/api/project/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            teacherId: currentUser._id,
+            title,
+            description,
+            maxStudents: parseInt(maxStudents)
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          showToast('تم إنشاء المشروع بنجاح');
+          
+          // Clear form
+          document.getElementById('project-title').value = '';
+          document.getElementById('project-description').value = '';
+          document.getElementById('max-students').value = '2';
+          
+          // Switch to My Projects tab
+          document.querySelector('[data-tab="my-projects"]').click();
+          
+          // Refresh projects
+          await fetchProjects();
+        } else {
+          showToast('حدث خطأ أثناء إنشاء المشروع', 'error');
+        }
+      } catch (error) {
+        console.error('Error creating project:', error);
+        showToast('حدث خطأ أثناء إنشاء المشروع', 'error');
+      }
+    }
+
+    // Update a project
+    async function updateProject(event) {
+      event.preventDefault();
+      
+      try {
+        const projectId = document.getElementById('edit-project-id').value;
+        const title = document.getElementById('edit-project-title').value;
+        const description = document.getElementById('edit-project-description').value;
+        const maxStudents = document.getElementById('edit-max-students').value;
+        
+        const response = await fetch(`http://localhost:3000/api/project/${projectId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title,
+            description,
+            maxStudents: parseInt(maxStudents)
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          showToast('تم تحديث المشروع بنجاح');
+          closeEditProjectModal();
+          
+          // Refresh projects
+          await fetchProjects();
+        } else {
+          showToast('حدث خطأ أثناء تحديث المشروع', 'error');
+        }
+      } catch (error) {
+        console.error('Error updating project:', error);
+        showToast('حدث خطأ أثناء تحديث المشروع', 'error');
+      }
+    }
+
+    // Delete a project
+    async function deleteProject(projectId) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/project/${projectId}`, {
+          method: 'DELETE'
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          showToast('تم حذف المشروع بنجاح');
+          closeDeleteProjectModal();
+          
+          // Refresh projects
+          await fetchProjects();
+          
+          // Refresh proposals (in case there were proposals for this project)
+          await fetchProposals();
+        } else {
+          showToast('حدث خطأ أثناء حذف المشروع', 'error');
+        }
+      } catch (error) {
+        console.error('Error deleting project:', error);
+        showToast('حدث خطأ أثناء حذف المشروع', 'error');
+      }
+    }
+
+    // Update proposal status (accept/reject)
+    async function updateProposalStatus(proposalId, status) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/proposal/${proposalId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            status
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          showToast(`تم ${status === 'accepted' ? 'قبول' : 'رفض'} الطلب بنجاح`);
+          
+          // Refresh proposals
+          await fetchProposals();
+        } else {
+          showToast('حدث خطأ أثناء تحديث حالة الطلب', 'error');
+        }
+      } catch (error) {
+        console.error('Error updating proposal status:', error);
+        showToast('حدث خطأ أثناء تحديث حالة الطلب', 'error');
+      }
+    }
+
+    // Select final project
+    async function selectFinalProject(projectId, studentId) {
+      try {
+        const response = await fetch('http://localhost:3000/api/proposal/select-final', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            projectId,
+            studentId
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          showToast('تم اختيار المشروع النهائي بنجاح');
+          
+          // Refresh proposals
+          await fetchProposals();
+          
+          // Refresh projects
+          await fetchProjects();
+        } else {
+          showToast('حدث خطأ أثناء اختيار المشروع النهائي', 'error');
+        }
+      } catch (error) {
+        console.error('Error selecting final project:', error);
+        showToast('حدث خطأ أثناء اختيار المشروع النهائي', 'error');
+      }
+    }
+
+    // Update profile
+    async function updateProfile(event) {
+      event.preventDefault();
+      
+      try {
+        const userId = checkAuth();
+        const fullName = document.getElementById('fullName').value;
+        
+        // This is a placeholder - your actual API might be different
+        const response = await fetch(`http://localhost:3000/api/user/${userId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fullName
+          })
+        });
+        
+        if (response.ok) {
+          showToast('تم تحديث الملف الشخصي بنجاح');
+          // Update user name in header
+          document.getElementById('user-name').textContent = fullName;
+        } else {
+          showToast('حدث خطأ أثناء تحديث الملف الشخصي', 'error');
+        }
+      } catch (error) {
+        console.error('Error updating profile:', error);
+        showToast('حدث خطأ أثناء تحديث الملف الشخصي', 'error');
+      }
+    }
+
+    // Open edit project modal
+    function openEditProjectModal(project) {
+      document.getElementById('edit-project-id').value = project._id;
+      document.getElementById('edit-project-title').value = project.title;
+      document.getElementById('edit-project-description').value = project.description;
+      document.getElementById('edit-max-students').value = project.maxStudents;
+      
+      editProjectModal.classList.remove('hidden');
+    }
+
+    // Close edit project modal
+    function closeEditProjectModal() {
+      editProjectModal.classList.add('hidden');
+    }
+
+    // Open delete project modal
+    function openDeleteProjectModal(projectId) {
+      document.getElementById('delete-project-id').value = projectId;
+      confirmDeleteModal.classList.remove('hidden');
+    }
+
+    // Close delete project modal
+    function closeDeleteProjectModal() {
+      confirmDeleteModal.classList.add('hidden');
+    }
+
+    // Show toast notification
+    function showToast(message, type = 'success') {
+      toastMessage.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'bg-green-500', 'bg-red-500');
+      toast.classList.add(type === 'success' ? 'bg-green-500' : 'bg-red-500');
+      
+      // Show toast
+      setTimeout(() => {
+        toast.classList.remove('translate-y-20', 'opacity-0');
+      }, 100);
+      
+      // Hide toast after 3 seconds
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem('userId');
+      window.location.href = 'login.html';
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', async () => {
+      await fetchCurrentUser();
+      await fetchProjects();
+      await fetchProposals();
+    });
+
+    // Tab buttons event listeners are already set up above
+
+    // Form submissions
+    createProjectForm.addEventListener('submit', createProject);
+    editProjectForm.addEventListener('submit', updateProject);
+    profileForm.addEventListener('submit', updateProfile);
+
+    // Modal actions
+    document.getElementById('close-edit-modal').addEventListener('click', closeEditProjectModal);
+    document.getElementById('cancel-edit').addEventListener('click', closeEditProjectModal);
+    document.getElementById('cancel-delete').addEventListener('click', closeDeleteProjectModal);
+    document.getElementById('confirm-delete').addEventListener('click', () => {
+      const projectId = document.getElementById('delete-project-id').value;
+      deleteProject(projectId);
+    });
+
+    // Refresh buttons
+    refreshProjectsBtn.addEventListener('click', fetchProjects);
+    refreshProposalsBtn.addEventListener('click', fetchProposals);
+
+    // Logout button
+    logoutBtn.addEventListener('click', logout);
+
+    // Close modals when clicking outside
+    editProjectModal.addEventListener('click', (event) => {
+      if (event.target === editProjectModal) {
+        closeEditProjectModal();
+      }
+    });
+
+    confirmDeleteModal.addEventListener('click', (event) => {
+      if (event.target === confirmDeleteModal) {
+        closeDeleteProjectModal();
+      }
     });
   </script>
 </body>
