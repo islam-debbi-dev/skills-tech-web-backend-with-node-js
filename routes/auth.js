@@ -100,10 +100,12 @@ router.post('/login',
   }
 );
 
-router.get('/loginform',
-  async (req, res) => {
-    res.render("auth/login.ejs");
-  }
-);
+// router.get('/loginform',
+//   async (req, res) => {
+//     res.render("auth/login.ejs");
+//   }
+// );
+
+
 
 module.exports = router;

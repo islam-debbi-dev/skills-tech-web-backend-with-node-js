@@ -39,10 +39,10 @@ app.use((req, res) => {
 });
 
 // error handler at server side 
-// app.use((err, req, res, next) => {
-//   console.error(err.stack)
-//   res.status(500).render("error", { title: "An error on the server.", error: err });
-// });
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).render("error", { title: "An error on the server.", error: err });
+});
 
 app.listen(port, () => {
   console.log(` localhost:${port}/`);
