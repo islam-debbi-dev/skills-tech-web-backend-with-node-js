@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"></html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +14,9 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
   <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">تسجيل الدخول إلى حسابك</h2>
-    <p id="error-message"  class="text-red-500 mb-4"></p>
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+      تسجيل الدخول إلى حسابك كـ
+    </h2>
     <form id="loginForm" action="/auth/login" method="POST" class="space-y-4">
       <div>
         <label for="username" class="block text-sm font-medium text-gray-700">اسم المستخدم</label>
@@ -35,9 +36,9 @@
         تسجيل الدخول
       </button>
     </form>
-    <p class="text-sm text-center text-gray-600 mt-4">
-      ليس لديك حساب؟ <a href="/auth/register" class="text-blue-600 hover:underline">إنشاء حساب</a>
-    </p>
+      <p class="text-sm text-center text-gray-600 mt-4">
+        ليس لديك حساب؟ <a href="/auth/register" class="text-blue-600 hover:underline">إنشاء حساب</a>
+      </p>
   </div>
   <script>
     document.getElementById('loginForm').addEventListener('submit', async function (event) {
