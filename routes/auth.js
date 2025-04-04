@@ -61,14 +61,6 @@ router.post('/login',
       if (!user.password === password) {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
-      // res.json({
-      //   user: {
-      //     id: user._id,
-      //     username: user.username,
-      //     role: user.role,
-      //     fullName: user.fullName
-      //   }, redirectUrl: `/api/page/testhome?username=${req.body.username}`
-      // });
       if (user.role === 'student') {
         res.json({
           user: {
@@ -76,7 +68,7 @@ router.post('/login',
             username: user.username,
             role: user.role,
             fullName: user.fullName
-          }, redirectUrl: `/api/page/student/index?username=${req.body.username}`
+          }, redirectUrl: `/api/page/student/home?username=${req.body.username}`
         });
       }
       if (user.role === 'teacher') {

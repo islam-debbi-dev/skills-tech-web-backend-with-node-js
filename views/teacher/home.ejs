@@ -738,7 +738,9 @@
     // Logout function
     function logout() {
       localStorage.removeItem('userId');
-      window.location.href = 'login.html';
+
+      window.location.href = '/api/page/login';
+
     }
 
     // Event Listeners
