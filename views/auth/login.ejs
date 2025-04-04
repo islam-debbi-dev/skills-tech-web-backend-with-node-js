@@ -36,9 +36,9 @@
         تسجيل الدخول
       </button>
     </form>
-      <p class="text-sm text-center text-gray-600 mt-4">
-        ليس لديك حساب؟ <a href="/auth/register" class="text-blue-600 hover:underline">إنشاء حساب</a>
-      </p>
+    <p class="text-sm text-center text-gray-600 mt-4">
+      ليس لديك حساب؟ <a href="register" class="text-blue-600 hover:underline">إنشاء حساب</a>
+    </p>
   </div>
   <script>
     document.getElementById('loginForm').addEventListener('submit', async function (event) {
@@ -49,7 +49,7 @@
   async function login() {
       try {
           const errorMessageElement = document.getElementById("error-message");
-          errorMessageElement.innerText = "";
+         // errorMessageElement.innerText = "";
           const result = await fetch(`http://localhost:3000/api/auth/login`, {
               method: 'POST',
               headers: {
@@ -66,7 +66,7 @@
               console.log(data.message);
           } else {
             alert('Login successful!');
-
+              
               window.location.href = data.redirectUrl; // Redirect to my account page with username
           }
       } catch (error) {

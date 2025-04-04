@@ -34,7 +34,7 @@ router.get('/teacher',
 );
 
 // get current user 
-router.get('/me',async (req,res)=>{
+router.get('/me/:id',async (req,res)=>{
     try{
         
     const me = await User.findById(req.params.id).select('-password');
