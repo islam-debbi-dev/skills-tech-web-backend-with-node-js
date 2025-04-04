@@ -36,7 +36,7 @@
       </button>
     </form>
     <p class="text-sm text-center text-gray-600 mt-4">
-      ليس لديك حساب؟ <a href="/auth/register" class="text-blue-600 hover:underline">إنشاء حساب</a>
+      ليس لديك حساب؟ <a href="register" class="text-blue-600 hover:underline">إنشاء حساب</a>
     </p>
   </div>
   <script>
@@ -65,7 +65,7 @@
               console.log(data.message);
           } else {
             alert('Login successful!');
-
+              
               window.location.href = data.redirectUrl; // Redirect to my account page with username
           }
       } catch (error) {
