@@ -20,11 +20,7 @@ router.get('/testhome', (req, res) => {
     });
 });
 
-router.get('/student/index', (req, res) => {
-    res.render('student/index.ejs', {
-        username: req.query.username,
-    });
-});
+
 
 // get student home page
 router.get('/student/home', (req, res) => {
