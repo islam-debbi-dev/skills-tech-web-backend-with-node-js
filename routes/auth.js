@@ -76,7 +76,7 @@ router.post('/login',
             username: user.username,
             role: user.role,
             fullName: user.fullName
-          }, redirectUrl: `/api/page/student/home?username=${req.body.username}`
+          }, redirectUrl: `/api/page/student/index?username=${req.body.username}`
         });
       }
       if (user.role === 'teacher') {
