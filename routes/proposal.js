@@ -39,11 +39,16 @@ router.post('/',
     , async (req, res) => {
         try {
             const student = await User.findById(req.body.studentId);
+             // check if student has final project 
+             if(student.finalProject){
+                res.status(400).json({message : 'already have a final project'});
+            }
             if (student.proposalsSubmitted >= 3) {
                 return res.status(400).json({ message: 'Maximum number of proposals reached' });
             }
+           
             // if proposal already submited
-
+            
             const existSubmited = await Proposal.findOne({
                 projectId: req.body.projectId,
                 studentId: req.body.studentId
@@ -130,7 +135,7 @@ router.post('/select-final', async (req, res) => {
 
         await Proposal.updateMany(
             {
-                student: studentId,
+                studentId: studentId,
                 _id: { $ne: proposal._id }
             },
             { status: 'rejected' }

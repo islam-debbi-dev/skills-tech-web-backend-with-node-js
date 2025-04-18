@@ -65,7 +65,7 @@
           const data = await result.json();
           if (!result.ok) {
               errorMessageElement.innerText = data.message; // Display error message
-              console.log(data.message);
+             alert(data.message);
           } else {
             alert('Login successful!');
             localStorage.setItem('userId', data.user.id);
