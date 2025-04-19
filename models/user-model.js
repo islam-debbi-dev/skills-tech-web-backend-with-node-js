@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'student', 'teacher'],
         default: 'student'
     },
+    groupId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Group'
+    },
     fullName: {
         type: String,
         required: true

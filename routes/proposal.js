@@ -36,11 +36,21 @@ router.post('/',
     body('studentId').notEmpty()
     , async (req, res) => {
         try {
-            console.log(req.body)
+            const { projectId, studentId, message ,groupId} = req.body;
+            // Check if group is created
+            // if (!groupId) {
+            //     return res.status(400).json({ message: 'Group ID is required' });
+            // }
+            // Check if the project exists
+            const project = await Project.findById(projectId);
+            if (!project) {
+                return res.status(404).json({ message: 'Project not found' });
+            }
             const student = await User.findById(req.body.studentId);
             if (student.proposalsSubmitted >= 3) {
                 return res.status(400).json({ message: 'Maximum number of proposals reached' });
             }
+
             // if proposal already submited
             const existSubmited = await Proposal.findOne({
                 projectId: req.body.projectId,
@@ -50,12 +60,14 @@ router.post('/',
                 return res.status(400).json({ message: 'Proposal already submitted' });
             }
 
-            const { projectId, studentId, message } = req.body;
             const proposal = await Proposal.create({
                 projectId: projectId,
                 studentId: studentId,
+                groupId: groupId,
                 message
             });
+            console.log(proposal);
+
             student.proposalsSubmitted += 1;
             await student.save();
 
