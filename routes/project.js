@@ -60,7 +60,7 @@ router.get('/', async (req, res) => {
     }
 }
 );
-// delete project
+// delete project by id 
 router.delete('/:id', async (req, res) => {
     try {
         const project = await Project.findByIdAndDelete(req.params.id);
@@ -70,5 +70,16 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// delete all project
+
+router.delete('/',async(req,res)=>{
+    try{
+        await Project.deleteMany({});
+    res.json('success deleted');
+    }
+    catch(e){
+        res.status(500).json(e)
+    }
+})
 
 module.exports = router;

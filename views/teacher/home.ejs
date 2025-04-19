@@ -640,10 +640,12 @@
             studentId
           })
         });
-        
+
         const data = await response.json();
-        
-        if (response.ok) {
+        if (response.status === 400) {
+          showToast(data.message);
+        }
+        if (response.status === 200) {
           showToast('تم اختيار المشروع النهائي بنجاح');
           
           // Refresh proposals
@@ -739,7 +741,7 @@
     function logout() {
       localStorage.removeItem('userId');
 
-      window.location.href = '/api/page/login';
+      window.location.href = '/login';
 
     }
 
