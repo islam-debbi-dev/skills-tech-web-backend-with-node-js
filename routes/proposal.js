@@ -36,22 +36,22 @@ router.post('/',
     body('studentId').notEmpty()
     , async (req, res) => {
         try {
-            const { projectId, studentId, message ,groupId} = req.body;
-            // Check if group is created
-            // if (!groupId) {
-            //     return res.status(400).json({ message: 'Group ID is required' });
-            // }
-            // Check if the project exists
+            const { projectId, studentId, message} = req.body;
+
             const project = await Project.findById(projectId);
             if (!project) {
                 return res.status(404).json({ message: 'Project not found' });
             }
             const student = await User.findById(req.body.studentId);
+            // // check if student has a group
+            // if(!student.groupId){
+            //     return res.status(400).json({ message: 'you are not in group' });
+            // }
             if (student.proposalsSubmitted >= 3) {
                 return res.status(400).json({ message: 'Maximum number of proposals reached' });
             }
 
-            // if proposal already submited
+            // if proposal already submitted
             const existSubmited = await Proposal.findOne({
                 projectId: req.body.projectId,
                 studentId: req.body.studentId
@@ -63,8 +63,8 @@ router.post('/',
             const proposal = await Proposal.create({
                 projectId: projectId,
                 studentId: studentId,
-                groupId: groupId,
-                message
+                groupId: student.groupId,
+                message: message
             });
             console.log(proposal);
 
@@ -99,13 +99,21 @@ router.put('/:id', body('status').notEmpty().isIn(['pending', 'accepted', 'rejec
                 if (alreadyAccepted) {
                     return res.status(400).json({ message: "this Student's proposel already accepted" });
                 }
+         
 
-                project.assignedStudents.push({ studentId: proposal.studentId });
+                project.assignedStudents.push({ studentId: proposal.studentId, groupId: proposal.groupId });
                 await project.save();
             }
 
             proposal.status = status;
             await proposal.save();
+            await Proposal.updateMany(
+                {
+                    studentId: proposal.studentId,
+                    _id: { $ne: proposal._id }
+                },
+                { status: 'rejected' }
+            );
 
             res.json(proposal);
         } catch (error) {

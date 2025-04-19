@@ -59,14 +59,15 @@ router.put('/:id/respond', async (req, res) => {
         // if the proposal is accepted , reject another groupproposel for this student id to the group
 
         if (status === 'accepted') {
-            await Group.findByIdAndUpdate(proposal.groupId, { $addToSet: { students: proposal.studentId } });
+        //    await Group.findByIdAndUpdate(proposal.groupId, { $addToSet: { students: proposal.studentId } });
             await GroupProposal.updateMany(
                 { groupId: proposal.groupId, studentId: proposal.studentId, _id: { $ne: proposalId } },
                 { status: 'rejected' }
             );
-
+            // add student id to this group
+            await Group.findByIdAndUpdate(proposal.groupId, { $addToSet: { students: proposal.studentId } });
             // add id group to the student
-            await User.findByIdAndUpdate(proposal.studentId, { groupId: proposal.groupId });
+            await User.findByIdAndUpdate(proposal.studentId, { $set: { groupId: proposal.groupId } });
         }
         await GroupProposal.findByIdAndUpdate(proposalId, { status: status }, { new: true });
 
