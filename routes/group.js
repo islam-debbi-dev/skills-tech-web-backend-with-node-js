@@ -18,4 +18,14 @@ router.post('/create/:id', async (req, res) => {
     }
 });
 
+// get all groups
+router.get('/', async (req, res) => {
+    try {
+        const groups = await Group.find().populate('studentcreaterId', 'fullName').populate('students', 'fullName');
+        res.status(200).json(groups);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching groups', error });
+    }
+});
+
 module.exports = router;
