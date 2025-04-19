@@ -51,4 +51,24 @@ router.get('/me/:id',async (req,res)=>{
 }
 });
 
+// update user by id 
+router.put('/update/:id',async (req,res)=>{
+    try{
+        const {fullName} = req.body;
+        const user = await User.findByIdAndUpdate(req.params.id,{
+            fullName
+        },{new:true});
+        if(!user){
+            return res.status(404).json({message:'user not found'});
+        }
+        res.json({
+            user
+        })
+    }catch(e){
+        res.status(404).json({message:'user not found'});
+    }
+});
+
+
+
 module.exports = router, User;

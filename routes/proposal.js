@@ -10,9 +10,7 @@ router.get('/teacher', async (req, res) => {
     try {
         const teacherId = req.query.teacherId;
         const projects = await Project.find({ teacher: teacherId });
-        console.log('projects', projects);
         const projectIds = projects.map(project => project._id);
-        console.log('projectIds', projectIds);
         const proposals = await Proposal.find({ projectId: { $in: projectIds } });
         res.json(proposals);
     } catch (error) {
@@ -38,12 +36,12 @@ router.post('/',
     body('studentId').notEmpty()
     , async (req, res) => {
         try {
+            console.log(req.body)
             const student = await User.findById(req.body.studentId);
             if (student.proposalsSubmitted >= 3) {
                 return res.status(400).json({ message: 'Maximum number of proposals reached' });
             }
             // if proposal already submited
-
             const existSubmited = await Proposal.findOne({
                 projectId: req.body.projectId,
                 studentId: req.body.studentId
@@ -111,8 +109,10 @@ router.post('/select-final', async (req, res) => {
         if (!student) {
             return res.status(404).json({ message: 'Student not found' });
         }
-        console.log(`projectId: ${projectId} studentId: ${studentId}`);
-
+        // cheak if student already has a final project 
+        if (student.finalProject) {
+            return res.status(400).json({ message: 'Student already has a final project' });
+        }
 
         const proposal = await Proposal.findOne({
             studentId: studentId,
@@ -122,21 +122,27 @@ router.post('/select-final', async (req, res) => {
         if (!proposal) {
             return res.status(400).json({ message: 'No accepted proposal found for this project' });
         }
-
-
-
         student.finalProject = projectId;
         await student.save();
-
-        await Proposal.updateMany(
-            {
-                student: studentId,
-                _id: { $ne: proposal._id }
-            },
-            { status: 'rejected' }
-        );
-
-        res.json({ message: 'Final project selected successfully' });
+        
+            await Proposal.updateMany(
+                {
+                    studentId: studentId,
+                    _id: { $ne: proposal._id }
+                },
+                { status: 'rejected' }
+            );
+        
+        res.status(200).json({ message: 'Final project selected successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+// delete all proposal
+router.delete('/', async (req, res) => {
+    try {
+        await Proposal.deleteMany({});
+        res.json({ message: 'All proposals deleted' });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }

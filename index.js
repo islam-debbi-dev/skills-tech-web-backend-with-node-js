@@ -6,6 +6,7 @@ const user = require('./routes/user');
 const project = require('./routes/project');
 const page = require('./routes/pages');
 const proposal = require('./routes/proposal');
+const group = require('./routes/group');
 
 const connectDb = require('./middleware/connactDb');
 const port = process.env.PORT || 3000;
@@ -28,8 +29,8 @@ app.use("/api/auth",auth);
 app.use("/api/user",user);
 app.use("/api/project",project);
 app.use("/api/proposal",proposal);
-app.use("/api/page",page);
-
+app.use("/",page);
+app.use('/api/group', group);
 
 
 
