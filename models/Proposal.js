@@ -6,6 +6,10 @@ const proposalSchema = new mongoose.Schema({
     ref: 'Project',
     required: true
   },
+  groupId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Group',
+  },
   studentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',

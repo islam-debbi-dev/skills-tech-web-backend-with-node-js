@@ -63,6 +63,9 @@ router.put('/:id/respond', async (req, res) => {
                 { groupId: proposal.groupId, studentId: proposal.studentId, _id: { $ne: proposalId } },
                 { status: 'rejected' }
             );
+
+            // add id group to the student
+            await User.findByIdAndUpdate(proposal.studentId, { groupId: proposal.groupId });
         }
         await GroupProposal.findByIdAndUpdate(proposalId, { status: status }, { new: true });
 
@@ -85,22 +88,17 @@ router.get('/student/:id', async (req, res) => {
     }
 });
 
+// delete all proposals
 
-// remove all proposals 
-router.delete('/remove', async (req, res) => {
+router.delete('/deleteAll', async (req, res) => {
     try {
-
-        const proposal = await GroupProposal.deleteMany({});
-        if (!proposal) {
-            return res.status(404).json({ message: 'Proposal not found' });
-        }
- 
-
-        res.status(200).json({ message: 'Proposal removed successfully', proposal });
+        await GroupProposal.deleteMany({});
+        res.status(200).json({ message: 'All proposals deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Error removing proposal', error });
+        res.status(500).json({ message: 'Error deleting proposals', error });
     }
-});
+}
+);
 
 
 module.exports = router;
