@@ -68,7 +68,7 @@ router.post('/login',
             username: user.username,
             role: user.role,
             fullName: user.fullName
-          }, redirectUrl: `/api/page/student/home?username=${req.body.username}`
+          }, redirectUrl: `/student/home?username=${req.body.username}`
         });
       }
       if (user.role === 'teacher') {
@@ -78,7 +78,7 @@ router.post('/login',
             username: user.username,
             role: user.role,
             fullName: user.fullName
-          }, redirectUrl: `/api/page/teacher/home?username=${user.username}`
+          }, redirectUrl: `/teacher/home?username=${user.username}`
         });
       }
       // else {

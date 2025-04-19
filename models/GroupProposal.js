@@ -1,30 +1,26 @@
 const mongoose = require('mongoose');
 
-const proposalSchema = new mongoose.Schema({
-  projectId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Project',
-    required: true
-  },
+const groupProposalSchema = new mongoose.Schema({
   groupId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Group',
+    required: true
   },
   studentId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: 'User',
     required: true
+  },
+  message: {
+    type: String,
   },
   status: {
     type: String,
     enum: ['pending', 'accepted', 'rejected'],
     default: 'pending'
-  },
-  message: {
-    type: String
   }
 }, {
   timestamps: true
 });
 
-module.exports = mongoose.model('Proposal', proposalSchema);
+module.exports = mongoose.model('GroupProposal', groupProposalSchema);
