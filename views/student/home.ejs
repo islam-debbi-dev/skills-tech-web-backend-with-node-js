@@ -294,6 +294,7 @@
 
         projects = data;
         renderProjects();
+        console.log(`this ${data}`);
       } catch (error) {
         console.error('Error fetching projects:', error);
         showToast('حدث خطأ أثناء تحميل المشاريع', 'error');
@@ -320,36 +321,37 @@
       projectsContainer.innerHTML = '';
 
       if (projects.length === 0) {
-        projectsContainer.innerHTML = '<p class="col-span-3 text-center text-gray-500">لا توجد مشاريع متاحة حالياً</p>';
-        return;
+      projectsContainer.innerHTML = '<p class="col-span-3 text-center text-gray-500">لا توجد مشاريع متاحة حالياً</p>';
+      return;
       }
 
       projects.forEach(project => {
-        // Check if the user has already submitted a proposal for this project
-        const hasProposal = proposals.some(proposal => proposal.projectId === project._id);
+      // Check if the user has already submitted a proposal for this project
+      const hasProposal = proposals.some(proposal => proposal.projectId === project._id);
 
-        const projectCard = document.createElement('div');
-        projectCard.className = 'bg-white p-6 rounded-lg shadow-md';
-        projectCard.innerHTML = `
-          <h3 class="text-lg font-bold mb-2">${project.title}</h3>
-          <p class="text-gray-600 mb-4">${project.description}</p>
-          <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
-            <span>الحالة: <span class="font-medium ${project.status === 'available' ? 'text-green-600' : 'text-red-600'}">${project.status === 'available' ? 'متاح' : 'غير متاح'}</span></span>
-            <span>الحد الأقصى للطلاب: ${project.maxStudents}</span>
-          </div>
-          <button class="view-project w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${hasProposal ? 'opacity-50 cursor-not-allowed' : ''}" 
-            data-id="${project._id}" ${hasProposal ? 'disabled' : ''}>
-            ${hasProposal ? 'تم تقديم طلب' : 'عرض التفاصيل'}
-          </button>
-        `;
+      const projectCard = document.createElement('div');
+      projectCard.className = 'bg-white p-6 rounded-lg shadow-md';
+      projectCard.innerHTML = `
+        <h3 class="text-lg font-bold mb-2">${project.title}</h3>
+        <p class="text-gray-600 mb-4">${project.description}</p>
+        <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
+        <span>الحالة: <span class="font-medium ${project.status === 'available' ? 'text-green-600' : 'text-red-600'}">${project.status === 'available' ? 'متاح' : 'غير متاح'}</span></span>
+        <span>الحد الأقصى للطلاب: ${project.maxStudents}</span>
+        </div>
+        <p class="text-sm text-gray-500 mb-4">اسم الأستاذ: <span class="font-medium">${project.teacherFullName || 'غير متوفر'}</span></p>
+        <button class="view-project w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${hasProposal ? 'opacity-50 cursor-not-allowed' : ''}" 
+        data-id="${project._id}" ${hasProposal ? 'disabled' : ''}>
+        ${hasProposal ? 'تم تقديم طلب' : 'عرض التفاصيل'}
+        </button>
+      `;
 
-        projectsContainer.appendChild(projectCard);
+      projectsContainer.appendChild(projectCard);
 
-        // Add event listener to view project button
-        const viewBtn = projectCard.querySelector('.view-project');
-        if (!hasProposal) {
-          viewBtn.addEventListener('click', () => openProjectModal(project));
-        }
+      // Add event listener to view project button
+      const viewBtn = projectCard.querySelector('.view-project');
+      if (!hasProposal) {
+        viewBtn.addEventListener('click', () => openProjectModal(project));
+      }
       });
     }
 
