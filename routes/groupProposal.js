@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/create', async (req, res) => {
     try {
         const { groupId, studentId, message } = req.body;
+        console.log(req.body);
         // Check if the group exists
         const group = await Group.findById(groupId);
         if (!group) {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +11,17 @@
     body {
       font-family: 'Cairo', sans-serif;
     }
+
     .tab-content {
       display: none;
     }
+
     .tab-content.active {
       display: block;
     }
   </style>
 </head>
+
 <body class="bg-gray-100 min-h-screen">
   <!-- Header -->
   <header class="bg-blue-600 text-white p-4 shadow-md">
@@ -43,12 +47,20 @@
           </button>
         </li>
         <li class="ml-4">
-          <button class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-gray-300" data-tab="proposals">
+          <button class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-gray-300"
+            data-tab="proposals">
             طلباتي
           </button>
         </li>
         <li class="ml-4">
-          <button class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-gray-300" data-tab="profile">
+          <button class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-gray-300"
+            data-tab="groups">
+            إدارة المجموعات
+          </button>
+        </li>
+        <li class="ml-4">
+          <button class="tab-btn inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:border-gray-300"
+            data-tab="profile">
             الملف الشخصي
           </button>
         </li>
@@ -86,15 +98,58 @@
           <tbody id="proposals-container">
             <!-- Proposals will be loaded here -->
             <tr class="animate-pulse">
-              <td class="py-3 px-4"><div class="h-4 bg-gray-200 rounded w-3/4"></div></td>
-              <td class="py-3 px-4"><div class="h-4 bg-gray-200 rounded w-1/2"></div></td>
-              <td class="py-3 px-4"><div class="h-4 bg-gray-200 rounded w-2/3"></div></td>
+              <td class="py-3 px-4">
+                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+              </td>
+              <td class="py-3 px-4">
+                <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+              </td>
+              <td class="py-3 px-4">
+                <div class="h-4 bg-gray-200 rounded w-2/3"></div>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+    <!--add tab-->
+    <div class="tab-content">
+      <h2 class="text-xl font-bold mb-4">عنوان التبويب الجديد</h2>
+      <p>محتوى التبويب الجديد سيظهر هنا.</p>
+    </div>
 
+    <!-- Groups Tab -->
+    <div id="groups-tab" class="tab-content">
+      <h2 class="text-xl font-bold mb-4">إدارة المجموعات</h2>
+
+      <!-- Create Group -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-2">إنشاء مجموعة جديدة</h3>
+        <form id="createGroupForm" class="space-y-4">
+          <input type="text" id="groupName" placeholder="اسم المجموعة" class="w-full px-3 py-2 border rounded" required>
+          <textarea id="groupDescription" placeholder="وصف المجموعة" class="w-full px-3 py-2 border rounded"></textarea>
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">إنشاء مجموعة</button>
+        </form>
+      </div>
+
+      <!-- Send Group Proposal -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-2">إرسال طلب انضمام إلى مجموعة</h3>
+        <form id="sendProposalForm" class="space-y-4">
+          <input type="text" id="groupId" placeholder="معرف المجموعة" class="w-full px-3 py-2 border rounded" required>
+          <textarea id="proposalMessage" placeholder="رسالة الطلب" class="w-full px-3 py-2 border rounded"></textarea>
+          <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">إرسال الطلب</button>
+        </form>
+      </div>
+
+      <!-- View Group Proposals -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-2">طلبات الانضمام</h3>
+        <ul id="groupProposalsList" class="space-y-4">
+          <!-- Group proposals will be loaded here -->
+        </ul>
+      </div>
+    </div>
     <!-- Profile Tab -->
     <div id="profile-tab" class="tab-content">
       <h2 class="text-xl font-bold mb-4">الملف الشخصي</h2>
@@ -102,7 +157,7 @@
         <form id="profile-form" class="space-y-4">
           <div>
             <label for="fullName" class="block text-sm font-medium text-gray-700">الاسم الكامل</label>
-            <input type="text" id="fullName" name="fullName" 
+            <input type="text" id="fullName" name="fullName"
               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
           </div>
           <div>
@@ -144,7 +199,8 @@
         <!-- Project details will be loaded here -->
       </div>
       <div id="modal-actions" class="flex justify-end">
-        <button id="submit-proposal" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <button id="submit-proposal"
+          class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
           تقديم طلب
         </button>
       </div>
@@ -152,7 +208,8 @@
   </div>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transform transition-transform duration-300 translate-y-20 opacity-0">
+  <div id="toast"
+    class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg transform transition-transform duration-300 translate-y-20 opacity-0">
     <span id="toast-message"></span>
   </div>
 
@@ -189,7 +246,7 @@
     tabButtons.forEach(button => {
       button.addEventListener('click', () => {
         const tabId = button.getAttribute('data-tab');
-        
+
         // Update active tab button
         tabButtons.forEach(btn => {
           btn.classList.remove('active', 'border-blue-600');
@@ -197,7 +254,7 @@
         });
         button.classList.add('active', 'border-blue-600');
         button.classList.remove('border-transparent');
-        
+
         // Show active tab content
         tabContents.forEach(content => {
           content.classList.remove('active');
@@ -212,11 +269,11 @@
         const userId = checkAuth();
         const response = await fetch(`http://localhost:3000/api/user/me/${userId}`);
         const data = await response.json();
-        
+
         if (data.me) {
           currentUser = data.me;
           document.getElementById('user-name').textContent = currentUser.fullName;
-          
+
           // Fill profile form
           document.getElementById('fullName').value = currentUser.fullName;
           document.getElementById('username').value = currentUser.username;
@@ -234,7 +291,7 @@
       try {
         const response = await fetch('http://localhost:3000/api/project/');
         const data = await response.json();
-        
+
         projects = data;
         renderProjects();
       } catch (error) {
@@ -249,7 +306,7 @@
         const userId = checkAuth();
         const response = await fetch(`http://localhost:3000/api/proposal/student?studentId=${userId}`);
         const data = await response.json();
-        
+
         proposals = data;
         renderProposals();
       } catch (error) {
@@ -261,16 +318,16 @@
     // Render projects to the DOM
     function renderProjects() {
       projectsContainer.innerHTML = '';
-      
+
       if (projects.length === 0) {
         projectsContainer.innerHTML = '<p class="col-span-3 text-center text-gray-500">لا توجد مشاريع متاحة حالياً</p>';
         return;
       }
-      
+
       projects.forEach(project => {
         // Check if the user has already submitted a proposal for this project
         const hasProposal = proposals.some(proposal => proposal.projectId === project._id);
-        
+
         const projectCard = document.createElement('div');
         projectCard.className = 'bg-white p-6 rounded-lg shadow-md';
         projectCard.innerHTML = `
@@ -285,9 +342,9 @@
             ${hasProposal ? 'تم تقديم طلب' : 'عرض التفاصيل'}
           </button>
         `;
-        
+
         projectsContainer.appendChild(projectCard);
-        
+
         // Add event listener to view project button
         const viewBtn = projectCard.querySelector('.view-project');
         if (!hasProposal) {
@@ -299,12 +356,12 @@
     // Render proposals to the DOM
     function renderProposals() {
       proposalsContainer.innerHTML = '';
-      
+
       if (proposals.length === 0) {
         proposalsContainer.innerHTML = '<tr><td colspan="3" class="py-4 px-4 text-center text-gray-500">لم تقم بتقديم أي طلبات بعد</td></tr>';
         return;
       }
-      
+
       proposals.forEach(async proposal => {
         // Find the project details
         let projectTitle = 'جاري التحميل...';
@@ -320,23 +377,23 @@
         } catch (error) {
           console.error('Error getting project details:', error);
         }
-        
+
         const row = document.createElement('tr');
         row.className = 'border-b hover:bg-gray-50';
         row.innerHTML = `
           <td class="py-3 px-4">${projectTitle}</td>
           <td class="py-3 px-4">
             <span class="px-2 py-1 rounded-full text-xs font-medium
-              ${proposal.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                proposal.status === 'accepted' ? 'bg-green-100 text-green-800' : 
-                'bg-red-100 text-red-800'}">
-              ${proposal.status === 'pending' ? 'قيد الانتظار' : 
-                proposal.status === 'accepted' ? 'مقبول' : 'مرفوض'}
+              ${proposal.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+            proposal.status === 'accepted' ? 'bg-green-100 text-green-800' :
+              'bg-red-100 text-red-800'}">
+              ${proposal.status === 'pending' ? 'قيد الانتظار' :
+            proposal.status === 'accepted' ? 'مقبول' : 'مرفوض'}
             </span>
           </td>
           <td class="py-3 px-4">${new Date(proposal.createdAt).toLocaleDateString('ar-SA')}</td>
         `;
-        
+
         proposalsContainer.appendChild(row);
       });
     }
@@ -345,7 +402,7 @@
     function openProjectModal(project) {
       currentProjectId = project._id;
       document.getElementById('modal-title').textContent = project.title;
-      
+
       const modalContent = document.getElementById('modal-content');
       modalContent.innerHTML = `
         <p class="mb-4">${project.description}</p>
@@ -368,7 +425,7 @@
           </div>
         </div>
       `;
-      
+
       projectModal.classList.remove('hidden');
     }
 
@@ -382,7 +439,7 @@
     async function submitProposal() {
       try {
         if (!currentProjectId) return;
-        
+
         const userId = checkAuth();
         const response = await fetch('http://localhost:3000/api/proposal/', {
           method: 'POST',
@@ -394,13 +451,13 @@
             studentId: userId
           })
         });
-        
+
         const data = await response.json();
-        
+
         if (response.ok) {
           showToast('تم تقديم الطلب بنجاح');
           closeProjectModal();
-          
+
           // Refresh proposals
           await fetchProposals();
           // Refresh projects to update UI
@@ -417,11 +474,11 @@
     // Update profile
     async function updateProfile(event) {
       event.preventDefault();
-      
+
       try {
         const userId = checkAuth();
         const fullName = document.getElementById('fullName').value;
-        
+
         // This is a placeholder - your actual API might be different
         const response = await fetch(`http://localhost:3000/api/user/${userId}`, {
           method: 'PUT',
@@ -432,7 +489,7 @@
             fullName
           })
         });
-        
+
         if (response.ok) {
           showToast('تم تحديث الملف الشخصي بنجاح');
           // Update user name in header
@@ -451,12 +508,12 @@
       toastMessage.textContent = message;
       toast.classList.remove('translate-y-20', 'opacity-0', 'bg-green-500', 'bg-red-500');
       toast.classList.add(type === 'success' ? 'bg-green-500' : 'bg-red-500');
-      
+
       // Show toast
       setTimeout(() => {
         toast.classList.remove('translate-y-20', 'opacity-0');
       }, 100);
-      
+
       // Hide toast after 3 seconds
       setTimeout(() => {
         toast.classList.add('translate-y-20', 'opacity-0');
@@ -487,6 +544,134 @@
         closeProjectModal();
       }
     });
+
+    const groupProposalsList = document.getElementById('groupProposalsList');
+
+    // Tab switching functionality
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const tabId = button.getAttribute('data-tab');
+
+        // Update active tab button
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active', 'border-blue-600');
+          btn.classList.add('border-transparent');
+        });
+        button.classList.add('active', 'border-blue-600');
+        button.classList.remove('border-transparent');
+
+        // Show active tab content
+        tabContents.forEach(content => {
+          content.classList.remove('active');
+        });
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+      });
+    });
+
+    // Create Group
+    document.getElementById('createGroupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userId = checkAuth();
+      const groupName = document.getElementById('groupName').value;
+      const groupDescription = document.getElementById('groupDescription').value;
+
+      const response = await fetch(`/api/group/create/${userId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'student-id': '12345' },
+        body: JSON.stringify({ groupName, groupDescription })
+      });
+
+      const data = await response.json();
+      if(response.status === 201){
+      alert(data.message);
+      console.log(`this is data : ${data.group._id}`);
+      // save groupid in sessions
+      localStorage.setItem('groupId', data.group._id);
+      // display group name in the top 
+      document.getElementById('group-name').textContent = data.group.groupName;
+      }
+      else{
+        console.log(response.status);
+      }
+    });
+
+    // Send Group Proposal
+    document.getElementById('sendProposalForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const studentId = document.getElementById('groupId').value;
+      const message = document.getElementById('proposalMessage').value;
+      // get groupid from localstorage
+      const groupId = localStorage.getItem('groupId');
+       
+      const response = await fetch('/api/groupProposal/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ groupId, studentId, message })
+      });
+
+      const data = await response.json();
+      alert(data.message);
+    });
+
+    // Fetch and Render Group Proposals
+    async function fetchGroupProposals() {
+      const userId = checkAuth();
+      const response = await fetch(`/api/groupProposal/student/${userId}`);
+      const proposals = await response.json();
+
+      groupProposalsList.innerHTML = '';
+      proposals.forEach(proposal => {
+      const li = document.createElement('li');
+      li.className = 'bg-white p-4 rounded shadow';
+      li.innerHTML = `
+         <p><strong>المجموعة:</strong> ${proposal.groupId.groupName}</p>
+         <p><strong>الحالة:</strong> ${proposal.status}</p>
+         <button class="bg-green-500 text-white px-4 py-2 rounded accept-btn ${proposal.status !== 'pending' ? 'hidden' : ''}" data-id="${proposal._id}">قبول</button>
+         <button class="bg-red-500 text-white px-4 py-2 rounded reject-btn ${proposal.status !== 'pending' ? 'hidden' : ''}" data-id="${proposal._id}">رفض</button>
+         <p class="response-message mt-2 hidden"></p>
+       `;
+
+      // Add event listeners for accept/reject buttons
+      li.querySelector('.accept-btn')?.addEventListener('click', () => {
+        respondToProposal(proposal._id, 'accepted');
+        const responseMessage = li.querySelector('.response-message');
+        responseMessage.textContent = "لقد تم القبول";
+        responseMessage.className = "response-message mt-2 text-green-500";
+        li.querySelector('.accept-btn').classList.add('hidden');
+        li.querySelector('.reject-btn').classList.add('hidden');
+      });
+
+      li.querySelector('.reject-btn')?.addEventListener('click', () => {
+        respondToProposal(proposal._id, 'rejected');
+        const responseMessage = li.querySelector('.response-message');
+        responseMessage.textContent = "لقد تم الرفض";
+        responseMessage.className = "response-message mt-2 text-red-500";
+        li.querySelector('.accept-btn').classList.add('hidden');
+        li.querySelector('.reject-btn').classList.add('hidden');
+      });
+
+      groupProposalsList.appendChild(li);
+      });
+    }
+
+    // Respond to Group Proposal
+    async function respondToProposal(proposalId, status) {
+      const response = await fetch(`/api/groupProposal/${proposalId}/respond`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+
+      const data = await response.json();
+      alert(data.message);
+      fetchGroupProposals(); // Refresh proposals
+    }
+
+    // Fetch data on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchGroupProposals();
+    });
   </script>
 </body>
+
 </html>
