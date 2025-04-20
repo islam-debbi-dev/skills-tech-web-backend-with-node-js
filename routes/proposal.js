@@ -144,7 +144,6 @@ router.post('/select-final', async (req, res) => {
         }
         student.finalProject = projectId;
         await student.save();
-        
             await Proposal.updateMany(
                 {
                     studentId: studentId,

@@ -15,7 +15,7 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
   <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
-      تسجيل الدخول إلى حسابك كـ
+      تسجيل الدخول إلى حسابك
     </h2>
     <form id="loginForm" action="/login" method="POST" class="space-y-4">
       <div>
@@ -65,7 +65,7 @@
           const data = await result.json();
           if (!result.ok) {
               errorMessageElement.innerText = data.message; // Display error message
-              console.log(data.message);
+             alert(data.message);
           } else {
             alert('Login successful!');
             localStorage.setItem('userId', data.user.id);

@@ -10,7 +10,7 @@ router.get('/admin',
             if(role !== 'admin'){
                 return res.status(403).json({ message: 'Access denied' });
             }
-            const users = await User.find({ role: { $in: ['teacher', 'student'] } }).select('-password');
+            const users = await User.find({ role: { $in: ['teacher', 'student'] } });
             res.status(200).json(users.length ? users : { message: 'No users found.' });
         } catch (error) {
             res.status(500).json({ message: 'Error fetching users.', error });
