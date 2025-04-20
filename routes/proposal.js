@@ -14,7 +14,7 @@ router.get('/teacher', async (req, res) => {
         const proposals = await Proposal.find({ projectId: { $in: projectIds } });
         res.json(proposals);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'خطأ في الخادم' });
     }
 });
 
@@ -26,7 +26,7 @@ router.get('/student', async (req, res) => {
         const proposals = await Proposal.find({ studentId });
         res.json(proposals);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'خطأ في الخادم' });
     }
 });
 
@@ -36,28 +36,23 @@ router.post('/',
     body('studentId').notEmpty()
     , async (req, res) => {
         try {
-            const { projectId, studentId, message} = req.body;
+            const { projectId, studentId, message } = req.body;
 
             const project = await Project.findById(projectId);
             if (!project) {
-                return res.status(404).json({ message: 'Project not found' });
+                return res.status(404).json({ message: 'المشروع غير موجود' });
             }
             const student = await User.findById(req.body.studentId);
-            // // check if student has a group
-            // if(!student.groupId){
-            //     return res.status(400).json({ message: 'you are not in group' });
-            // }
             if (student.proposalsSubmitted >= 3) {
-                return res.status(400).json({ message: 'Maximum number of proposals reached' });
+                return res.status(400).json({ message: 'تم الوصول إلى الحد الأقصى لعدد المقترحات' });
             }
 
-            // if proposal already submitted
             const existSubmited = await Proposal.findOne({
                 projectId: req.body.projectId,
                 studentId: req.body.studentId
             });
             if (existSubmited) {
-                return res.status(400).json({ message: 'Proposal already submitted' });
+                return res.status(400).json({ message: 'تم تقديم المقترح مسبقًا' });
             }
 
             const proposal = await Proposal.create({
@@ -71,9 +66,9 @@ router.post('/',
             student.proposalsSubmitted += 1;
             await student.save();
 
-            res.status(201).json(proposal);
+            res.status(201).json({message:'تم تقديم الطلب بنجاح'});
         } catch (error) {
-            res.status(500).json({ message: 'Server error', error: error.message });
+            res.status(500).json({ message: 'خطأ في الخادم' });
         }
     });
 
@@ -85,21 +80,19 @@ router.put('/:id', body('status').notEmpty().isIn(['pending', 'accepted', 'rejec
             const proposal = await Proposal.findById(req.params.id);
 
             if (!proposal) {
-                return res.status(404).json({ message: 'Proposal not found' });
+                return res.status(404).json({ message: 'المقترح غير موجود' });
             }
 
             const project = await Project.findById(proposal.projectId);
             if (status === 'accepted') {
 
                 if (project.assignedStudents.length >= project.maxStudents) {
-                    return res.status(400).json({ message: 'Project already has maximum number of students' });
+                    return res.status(400).json({ message: 'المشروع يحتوي بالفعل على الحد الأقصى من الطلاب' });
                 }
-                // check if student already accepted and exist in assignedStudents project
                 const alreadyAccepted = project.assignedStudents.some(student => student.studentId.toString() === proposal.studentId.toString());
                 if (alreadyAccepted) {
-                    return res.status(400).json({ message: "this Student's proposel already accepted" });
+                    return res.status(400).json({ message: 'تم قبول مقترح هذا الطالب مسبقًا' });
                 }
-         
 
                 project.assignedStudents.push({ studentId: proposal.studentId, groupId: proposal.groupId });
                 await project.save();
@@ -117,7 +110,7 @@ router.put('/:id', body('status').notEmpty().isIn(['pending', 'accepted', 'rejec
 
             res.json(proposal);
         } catch (error) {
-            res.status(500).json({ message: 'Server error', error: error.message });
+            res.status(500).json({ message: 'خطأ في الخادم' });
         }
     });
 
@@ -127,11 +120,10 @@ router.post('/select-final', async (req, res) => {
         const { projectId, studentId } = req.body;
         const student = await User.findById(studentId);
         if (!student) {
-            return res.status(404).json({ message: 'Student not found' });
+            return res.status(404).json({ message: 'الطالب غير موجود' });
         }
-        // cheak if student already has a final project 
         if (student.finalProject) {
-            return res.status(400).json({ message: 'Student already has a final project' });
+            return res.status(400).json({ message: 'الطالب لديه مشروع نهائي بالفعل' });
         }
 
         const proposal = await Proposal.findOne({
@@ -140,30 +132,31 @@ router.post('/select-final', async (req, res) => {
             status: 'accepted'
         });
         if (!proposal) {
-            return res.status(400).json({ message: 'No accepted proposal found for this project' });
+            return res.status(400).json({ message: 'لم يتم العثور على مقترح مقبول لهذا المشروع' });
         }
         student.finalProject = projectId;
         await student.save();
-            await Proposal.updateMany(
-                {
-                    studentId: studentId,
-                    _id: { $ne: proposal._id }
-                },
-                { status: 'rejected' }
-            );
-        
-        res.status(200).json({ message: 'Final project selected successfully' });
+        await Proposal.updateMany(
+            {
+                studentId: studentId,
+                _id: { $ne: proposal._id }
+            },
+            { status: 'rejected' }
+        );
+
+        res.status(200).json({ message: 'تم اختيار المشروع النهائي بنجاح' });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'خطأ في الخادم' });
     }
 });
-// delete all proposal
+
+// Delete all proposals
 router.delete('/', async (req, res) => {
     try {
         await Proposal.deleteMany({});
-        res.json({ message: 'All proposals deleted' });
+        res.json({ message: 'تم حذف جميع المقترحات' });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'خطأ في الخادم' });
     }
 });
 
