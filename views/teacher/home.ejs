@@ -787,6 +787,33 @@
         closeDeleteProjectModal();
       }
     });
+
+    document.getElementById('profile-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fullName = document.getElementById('fullName').value;
+      
+      const userId = checkAuth();
+      try{
+      const response = await fetch
+      (`http://localhost:3000/api/user/update/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fullName: fullName
+        })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        showToast('تم تحديث الملف الشخصي بنجاح');
+      }
+    }catch (error) {
+      console.error('Error updating profile:', error);
+      showToast(data.message, 'error');
+    
+    }
+    })    
   </script>
 </body>
 </html>
