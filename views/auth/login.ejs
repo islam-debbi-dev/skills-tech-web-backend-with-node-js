@@ -65,15 +65,15 @@
           const data = await result.json();
           if (!result.ok) {
               errorMessageElement.innerText = data.message; // Display error message
-             alert(data.message);
+            //  alert(data.message);
           } else {
-            alert('Login successful!');
+            // alert('Login successful!');
             localStorage.setItem('userId', data.user.id);
               window.location.href = data.redirectUrl; // Redirect to my account page with username
           }
       } catch (error) {
           console.error('Error:', error);
-          alert('Login failed. Please check your credentials and try again.');
+          // alert('Login failed. Please check your credentials and try again.');
       }
   }
   </script>

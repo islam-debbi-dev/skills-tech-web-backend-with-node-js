@@ -107,6 +107,7 @@ router.put('/:id', body('status').notEmpty().isIn(['pending', 'accepted', 'rejec
                 );
 
                 res.json(proposal);
+
             } else if (status === 'rejected') {
                 proposal.status = status;
                 await proposal.save();
