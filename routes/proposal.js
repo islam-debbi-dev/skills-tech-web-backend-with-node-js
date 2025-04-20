@@ -43,18 +43,6 @@ router.post('/',
                 return res.status(404).json({ message: 'Project not found' });
             }
             const student = await User.findById(req.body.studentId);
-<<<<<<< HEAD
-             // check if student has final project 
-             if(student.finalProject){
-                res.status(400).json({message : 'already have a final project'});
-            }
-            if (student.proposalsSubmitted >= 3) {
-                return res.status(400).json({ message: 'Maximum number of proposals reached' });
-            }
-           
-            // if proposal already submited
-            
-=======
             // // check if student has a group
             // if(!student.groupId){
             //     return res.status(400).json({ message: 'you are not in group' });
@@ -64,7 +52,6 @@ router.post('/',
             }
 
             // if proposal already submitted
->>>>>>> 66fabd43be9f78b6526d120832e841a816c5442e
             const existSubmited = await Proposal.findOne({
                 projectId: req.body.projectId,
                 studentId: req.body.studentId
@@ -157,19 +144,6 @@ router.post('/select-final', async (req, res) => {
         }
         student.finalProject = projectId;
         await student.save();
-<<<<<<< HEAD
-
-        await Proposal.updateMany(
-            {
-                studentId: studentId,
-                _id: { $ne: proposal._id }
-            },
-            { status: 'rejected' }
-        );
-
-        res.json({ message: 'Final project selected successfully' });
-=======
-        
             await Proposal.updateMany(
                 {
                     studentId: studentId,
@@ -188,7 +162,6 @@ router.delete('/', async (req, res) => {
     try {
         await Proposal.deleteMany({});
         res.json({ message: 'All proposals deleted' });
->>>>>>> 66fabd43be9f78b6526d120832e841a816c5442e
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }

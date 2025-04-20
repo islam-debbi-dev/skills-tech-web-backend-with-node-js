@@ -51,40 +51,6 @@ router.get('/me/:id',async (req,res)=>{
 }
 });
 
-<<<<<<< HEAD
-// Update a user info
-router.put('/update-user',
-    async (req, res) => {
-        try {
-            const { username } = req.query;
-            const { fullName } = req.body;
-
-            if (!username) {
-                return res.status(400).json({ message: 'Username is required.' });
-            }
-
-            if (!fullName) {
-                return res.status(400).json({ message: 'Full name is required.' });
-            }
-
-            const updatedUser = await User.findOneAndUpdate(
-                { username },
-                { fullName },
-                { new: true, runValidators: true }
-            );
-
-            if (!updatedUser) {
-                return res.status(404).json({ message: 'User not found.' });
-            }
-
-            res.status(200).json({ message: 'User updated successfully.', user: updatedUser });
-        } catch (error) {
-            res.status(500).json({ message: 'Error updating user.', error });
-        }
-        // 
-    }
-);
-=======
 // update user by id 
 router.put('/update/:id',async (req,res)=>{
     try{
@@ -104,6 +70,5 @@ router.put('/update/:id',async (req,res)=>{
 });
 
 
->>>>>>> 66fabd43be9f78b6526d120832e841a816c5442e
 
 module.exports = router, User;
