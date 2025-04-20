@@ -308,13 +308,14 @@
           
           // Redirect if not a teacher
           if (currentUser.role !== 'teacher') {
-            alert('هذه الصفحة مخصصة للأساتذة فقط');
+            // alert('هذه الصفحة مخصصة للأساتذة فقط');
             window.location.href = 'index.html';
           }
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
-        showToast('حدث خطأ أثناء تحميل بيانات المستخدم', 'error');
+        // console.error('Error fetching user data:', error);
+        showToast(data.message, 'error');
+        console.log(data.message);
       }
     }
 
@@ -328,8 +329,9 @@
         projects = data.filter(project => project.teacher === currentUser._id);
         renderProjects();
       } catch (error) {
-        console.error('Error fetching projects:', error);
-        showToast('حدث خطأ أثناء تحميل المشاريع', 'error');
+        // console.error('Error fetching projects:', error);
+        showToast(data.message, 'error');
+        console.log(data.message);
       }
     }
 
@@ -342,8 +344,9 @@
         proposals = data;
         renderProposals();
       } catch (error) {
-        console.error('Error fetching proposals:', error);
-        showToast('حدث خطأ أثناء تحميل الطلبات', 'error');
+        // console.error('Error fetching proposals:', error);
+        showToast(data.message, 'error');
+        console.log(data.message);
       }
     }
 
@@ -365,7 +368,7 @@
         }
         return null;
       } catch (error) {
-        console.error('Error fetching student data:', error);
+        // console.error('Error fetching student data:', error);
         return null;
       }
     }
@@ -511,7 +514,8 @@
         const data = await response.json();
         
         if (response.ok) {
-          showToast('تم إنشاء المشروع بنجاح');
+          showToast(data.message);
+          console.log(data.message);
           
           // Clear form
           document.getElementById('project-title').value = '';
@@ -524,11 +528,13 @@
           // Refresh projects
           await fetchProjects();
         } else {
-          showToast('حدث خطأ أثناء إنشاء المشروع', 'error');
+          showToast(data.message, 'error');
+          console.log(data.message);
         }
       } catch (error) {
-        console.error('Error creating project:', error);
-        showToast('حدث خطأ أثناء إنشاء المشروع', 'error');
+        // console.error('Error creating project:', error);
+        showToast(data.message, 'error');
+        console.log(data.message);
       }
     }
 
@@ -557,17 +563,20 @@
         const data = await response.json();
         
         if (response.ok) {
-          showToast('تم تحديث المشروع بنجاح');
+          showToast(data.message);
+          console.log(data.message);
           closeEditProjectModal();
           
           // Refresh projects
           await fetchProjects();
         } else {
-          showToast('حدث خطأ أثناء تحديث المشروع', 'error');
+          showToast(data.message, 'error');
+          console.log(data.message);
         }
       } catch (error) {
-        console.error('Error updating project:', error);
-        showToast('حدث خطأ أثناء تحديث المشروع', 'error');
+        // console.error('Error updating project:', error);
+        showToast(data.message, 'error');
+        console.log(data.message);
       }
     }
 
@@ -581,7 +590,8 @@
         const data = await response.json();
         
         if (response.ok) {
-          showToast('تم حذف المشروع بنجاح');
+          showToast(data.message);
+          console.log(data.message);
           closeDeleteProjectModal();
           
           // Refresh projects
@@ -591,10 +601,12 @@
           await fetchProposals();
         } if(!response.ok) {
           showToast(data.message);
+          console.log(data.message);
         }
       } catch (error) {
-        console.error('Error deleting project:', error);
-        showToast('حدث خطأ أثناء حذف المشروع', 'error');
+        // console.error('Error deleting project:', error);
+        showToast(data.message, 'error');
+        console.log(data.message);
       }
     }
 
@@ -619,11 +631,13 @@
           // Refresh proposals
           await fetchProposals();
         } else {
-          showToast('حدث خطأ أثناء تحديث حالة الطلب', 'error');
+          showToast(data.message, 'error');
+          console.log(data.message);
         }
       } catch (error) {
-        console.error('Error updating proposal status:', error);
-        showToast('حدث خطأ أثناء تحديث حالة الطلب', 'error');
+        // console.error('Error updating proposal status:', error);
+        showToast(data.message, 'error');
+        console.log(data.message);
       }
     }
 
@@ -644,9 +658,11 @@
         const data = await response.json();
         if (response.status === 400) {
           showToast(data.message);
+          console.log(data.message);
         }
         if (response.status === 200) {
-          showToast('.تم اختيار المشروع النهائي بنجاح');
+          showToast(data.message);
+          console.log(data.message);
           
           // Refresh proposals
           await fetchProposals();
@@ -654,11 +670,13 @@
           // Refresh projects
           await fetchProjects();
         } else {
-          showToast('حدث خطأ أثناء اختيار المشروع النهائي', 'error');
+          showToast(data.message, 'error');
+          console.log(data.message);
         }
       } catch (error) {
-        console.error('Error selecting final project:', error);
-        showToast('حدث خطأ أثناء اختيار المشروع النهائي', 'error');
+        // console.error('Error selecting final project:', error);
+        showToast(data.message, 'error');
+        console.log(data.message);
       }
     }
 
@@ -682,15 +700,17 @@
         });
         
         if (response.ok) {
-          showToast('تم تحديث الملف الشخصي بنجاح');
+          showToast(data.message);
+          console.log(data.message);
           // Update user name in header
           document.getElementById('user-name').textContent = fullName;
         } else {
-          showToast('حدث خطأ أثناء تحديث الملف الشخصي', 'error');
+          showToast(data.message, 'error');
+          console.log(data.message);
         }
       } catch (error) {
-        console.error('Error updating profile:', error);
-        showToast('حدث خطأ أثناء تحديث الملف الشخصي', 'error');
+        showToast(data.message, 'error');
+        console.log(data.message);
       }
     }
 
@@ -806,12 +826,13 @@
       });
       const data = await response.json();
       if (response.ok) {
-        showToast('تم تحديث الملف الشخصي بنجاح');
+        showToast(data.message);
+        console.log(data.message);
+        
       }
     }catch (error) {
-      console.error('Error updating profile:', error);
       showToast(data.message, 'error');
-    
+      console.log(data.message);
     }
     })    
   </script>

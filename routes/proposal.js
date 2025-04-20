@@ -66,7 +66,7 @@ router.post('/',
             student.proposalsSubmitted += 1;
             await student.save();
 
-            res.status(201).json({message:'تم تقديم الطلب بنجاح'});
+            res.status(201).json({ message: 'تم تقديم الطلب بنجاح' });
         } catch (error) {
             res.status(500).json({ message: 'خطأ في الخادم' });
         }
@@ -96,19 +96,20 @@ router.put('/:id', body('status').notEmpty().isIn(['pending', 'accepted', 'rejec
 
                 project.assignedStudents.push({ studentId: proposal.studentId, groupId: proposal.groupId });
                 await project.save();
+                proposal.status = status;
+                await proposal.save();
+                await Proposal.updateMany(
+                    {
+                        studentId: proposal.studentId,
+                        _id: { $ne: proposal._id }
+                    },
+                    { status: 'rejected' }
+                );
+
+                res.json(proposal);
             }
 
-            proposal.status = status;
-            await proposal.save();
-            await Proposal.updateMany(
-                {
-                    studentId: proposal.studentId,
-                    _id: { $ne: proposal._id }
-                },
-                { status: 'rejected' }
-            );
 
-            res.json(proposal);
         } catch (error) {
             res.status(500).json({ message: 'خطأ في الخادم' });
         }

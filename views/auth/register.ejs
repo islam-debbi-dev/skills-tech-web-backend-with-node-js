@@ -120,7 +120,7 @@
         const password = document.getElementById('password').value;
         const password2 = document.getElementById('password2').value;
         if(password !== password2){
-            alert('Passwords do not match');
+            // alert('Passwords do not match');
             return;
         }
         const response = await fetch('http://localhost:3000/api/auth/register', {
@@ -133,12 +133,12 @@
         
         if(!response.ok){
             const data = await response.json();
-            alert(data.message);
+            // alert(data.message);
             console.log(data.message);
             return;
         }
         else{
-            alert('Registration successful!');
+            // alert('Registration successful!');
             window.location.href = '/login';
         
         }
