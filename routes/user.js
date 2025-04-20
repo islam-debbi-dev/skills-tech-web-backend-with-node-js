@@ -54,7 +54,11 @@ router.get('/me/:id',async (req,res)=>{
 // update user by id 
 router.put('/update/:id',async (req,res)=>{
     try{
-        const {fullName} = req.body;
+        const fullName = req.body.fullName;
+        if(!fullName){
+            return res.status(400).json({message:'full name is required'});
+        }
+        console.log(fullName);
         const user = await User.findByIdAndUpdate(req.params.id,{
             fullName
         },{new:true});
