@@ -107,8 +107,15 @@ router.put('/:id', body('status').notEmpty().isIn(['pending', 'accepted', 'rejec
                 );
 
                 res.json(proposal);
-            }
 
+            } else if (status === 'rejected') {
+                proposal.status = status;
+                await proposal.save();
+                res.json(proposal);
+                
+            } else {
+                return res.status(400).json({ message: 'حالة غير صالحة' });
+            }
 
         } catch (error) {
             res.status(500).json({ message: 'خطأ في الخادم' });

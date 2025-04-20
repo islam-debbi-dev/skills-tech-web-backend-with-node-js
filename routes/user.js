@@ -2,22 +2,6 @@ const checkRole = require('../middleware/checkRole');
 const User = require('../models/user-model');
 const router = require('./auth')
 
-router.get('/admin',
-  
-    async (req, res) => {
-        try {
-            const role =  req.headers.role;
-            if(role !== 'admin'){
-                return res.status(403).json({ message: 'Access denied' });
-            }
-            const users = await User.find({ role: { $in: ['teacher', 'student'] } });
-            res.status(200).json(users.length ? users : { message: 'No users found.' });
-        } catch (error) {
-            res.status(500).json({ message: 'Error fetching users.', error });
-        }
-    }
-);
-
 router.get('/teacher',
     async (req, res) => {
         try {
@@ -36,16 +20,12 @@ router.get('/teacher',
 
 // get current user 
 router.get('/me/:id',async (req,res)=>{
-    try{
-        
+    try{   
     const me = await User.findById(req.params.id).select('-password');
     if(!me){
         return res.status(404).json({message:'user not found'});
     }
-
-    res.json({
-        me
-    })
+    res.json({message:'user found',me});
 }catch(e){
     res.status(404).json({message:'user not found'});
 }
@@ -58,7 +38,6 @@ router.put('/update/:id',async (req,res)=>{
         if(!fullName){
             return res.status(400).json({message:'full name is required'});
         }
-        console.log(fullName);
         const user = await User.findByIdAndUpdate(req.params.id,{
             fullName
         },{new:true});
@@ -66,6 +45,7 @@ router.put('/update/:id',async (req,res)=>{
             return res.status(404).json({message:'user not found'});
         }
         res.json({
+            message: 'user updated successfully',
             user
         })
     }catch(e){

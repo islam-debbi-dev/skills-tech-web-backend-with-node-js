@@ -297,10 +297,10 @@
         const response = await fetch(`http://localhost:3000/api/user/me/${userId}`);
         const data = await response.json();
         
+        
         if (data.me) {
           currentUser = data.me;
           document.getElementById('user-name').textContent = currentUser.fullName;
-          
           // Fill profile form
           document.getElementById('fullName').value = currentUser.fullName;
           document.getElementById('username').value = currentUser.username;
@@ -311,6 +311,7 @@
             // alert('هذه الصفحة مخصصة للأساتذة فقط');
             window.location.href = 'index.html';
           }
+          
         }
       } catch (error) {
         // console.error('Error fetching user data:', error);
